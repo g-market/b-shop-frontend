@@ -1,17 +1,13 @@
-<script setup></script>
-
 <template>
-  <main>
-    <img
-      src="https://play-lh.googleusercontent.com/vtlk86Aif2oq7KVaxGRqlYnbku90pfXAHv8xXR-WIrfvVrOfhJSJwVbzB3kxMIyYmgyl=s48-rw"
-      @click="gitHubLogin"
-    />
-  </main>
+  <img
+    src="https://play-lh.googleusercontent.com/vtlk86Aif2oq7KVaxGRqlYnbku90pfXAHv8xXR-WIrfvVrOfhJSJwVbzB3kxMIyYmgyl=s48-rw"
+    @click="gitHubLogin"
+  />
 </template>
 
 <script>
 export default {
-  name: 'HomeView',
+  name: 'LoginView',
   data() {
     return {}
   },
@@ -23,3 +19,5 @@ export default {
   }
 }
 </script>
+
+<style lang="scss"></style>
