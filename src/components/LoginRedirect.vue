@@ -1,9 +1,9 @@
-<template>
-  <div></div>
-</template>
+<template></template>
 
 <script>
-export default {}
+export default {
+  created() {}
+}
 </script>
 
 <style lang="scss" scoped></style>

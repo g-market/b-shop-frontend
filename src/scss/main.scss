@@ -30,3 +30,15 @@ $container-max-widths: (
 @import '/node_modules/bootstrap/scss/root';
 
 @import '/node_modules/bootstrap/scss/bootstrap';
+
+body {
+  font-family: 'Urbanist', sans-serif;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+  color: currentColor;
+  &:hover {
+    color: currentColor;
+  }
+}
