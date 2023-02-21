@@ -1,7 +1,11 @@
-import { members } from '@/api/index'
+import { instanceWithAuth as members } from '@/api/index'
 
 function fetchMember() {
-  return members.get(`/members/me`)
+  return members.get('/members/me')
 }
 
-export { fetchMember }
+function patchMember(memberUpdateRequest) {
+  return members.patch(`/members/me`, memberUpdateRequest)
+}
+
+export { fetchMember, patchMember }
