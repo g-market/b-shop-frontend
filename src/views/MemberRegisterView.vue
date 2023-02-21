@@ -41,6 +41,15 @@
                     />
                   </td>
                 </tr>
+                <tr>
+                  <th><mdicon name="image" class="icon" /></th>
+                  <th>
+                    <label for="formFile" class="form-label">회원 프로필</label>
+                  </th>
+                  <td class="size-40">
+                    <input class="form-control" type="file" id="formFile" />
+                  </td>
+                </tr>
               </tbody>
             </table>
             <div class="btn-left">
