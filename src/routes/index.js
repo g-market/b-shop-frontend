@@ -28,10 +28,8 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue'),
         },
         {
-          path: '/',
-          // beforeEnter: authCheck,
-          name: 'register',
-          component: () => import('@/views/HomeView.vue'),
+          path: '/register',
+          component: () => import('@/views/MemberRegisterView.vue'),
         },
       ],
     },
