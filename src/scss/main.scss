@@ -1,5 +1,7 @@
 // Default variable overrides
-$primary: #1b71b8;
+$primary: #1277d5;
+$primary-btn: #cbe2f9;
+
 
 /**
 $theme-colors: (
@@ -15,30 +17,37 @@ $theme-colors: (
 */
 
 $container-max-widths: (
-  sm: 540px,
-  md: 704px,
-  lg: 924px,
-  xl: 1140px,
-  xxl: 1364px
+        sm: 540px,
+        md: 704px,
+        lg: 924px,
+        xl: 1140px,
+        xxl: 1364px
 );
 
 // Required
-@import '/node_modules/bootstrap/scss/functions';
-@import '/node_modules/bootstrap/scss/variables';
-@import '/node_modules/bootstrap/scss/maps';
-@import '/node_modules/bootstrap/scss/mixins';
-@import '/node_modules/bootstrap/scss/root';
+@import "/node_modules/bootstrap/scss/functions";
+@import "/node_modules/bootstrap/scss/variables";
+@import "/node_modules/bootstrap/scss/maps";
+@import "/node_modules/bootstrap/scss/mixins";
+@import "/node_modules/bootstrap/scss/root";
+@import "/node_modules/bootstrap/scss/bootstrap";
 
-@import '/node_modules/bootstrap/scss/bootstrap';
-
+* {
+  box-sizing: border-box;
+}
 body {
   font-family: 'Urbanist', sans-serif;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 a {
   text-decoration: none;
-  color: currentColor;
+  color: black;
+
   &:hover {
     color: currentColor;
   }
 }
+
+//img {
+//  border: none;
+//}
