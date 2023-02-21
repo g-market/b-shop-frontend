@@ -1,10 +1,10 @@
-import jwt from '@/api/jwt'
+import member from '@/store/member'
+import { reissueAccessToken } from '@/api/auth'
 
 export function setInterceptors(instance) {
-  // Add a request interceptor
   instance.interceptors.request.use(
     function (config) {
-      config.headers.Authorization = 'Bearer ' + jwt.getToken()
+      config.headers.Authorization = 'Bearer ' + member.state.token
       return config
     },
     function (error) {
@@ -24,16 +24,18 @@ export function setInterceptors(instance) {
         let code = error.response.data.code
         try {
           if (code === 'EXPIRED') {
-            const accessToken = await auth.requestReissue()
+            const accessToken = await reissueAccessToken()
             originalRequest.headers.Authorization = 'Bearer ' + accessToken
             return instance(originalRequest)
           }
-        } catch (error2) {
-          alert('권한이 없습니다. 다시 로그인 해주세요')
-          return Promise.reject(error2)
+        } catch (authorizedError) {
+          alert('권한이 없습니다. 다시 로그인 해주세요.')
+          return Promise.reject(authorizedError)
         }
       } else {
-        if (error.response.data.message) alert(error.response.data.message)
+        if (error.response.data.message) {
+          alert(error.response.data.message)
+        }
       }
     },
   )
