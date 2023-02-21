@@ -1,4 +1,4 @@
-import moment from '@/node_modules/moment'
+import moment from 'moment'
 
 const ACCESS_TOKEN_NAME = 'accessToken'
 const EXPIRED_TIME_NAME = 'expiredTime'
@@ -23,8 +23,9 @@ export default {
     localStorage.removeItem(EXPIRED_TIME_NAME)
   },
   isExpired() {
-    if (this.getExpiredTime() == null || this.getToken() == null) return true
-
+    if (this.getExpiredTime() == null || this.getToken() == null) {
+      return true
+    }
     const expiredTime = this.getExpiredTime()
 
     const expiredMoment = moment(expiredTime)
@@ -41,10 +42,10 @@ export default {
       'currentMoment = ',
       currentMoment,
       'diff = ',
-      difference
+      difference,
     )
 
     // 만료 30초 전일 경우 만료로 판단
     return difference <= 30
-  }
+  },
 }
