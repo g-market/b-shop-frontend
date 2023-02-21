@@ -6,9 +6,23 @@ module.exports = {
   extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-prettier'
+    '@vue/eslint-config-prettier',
   ],
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        semi: false,
+        tabWidth: 2,
+        trailingComma: 'all',
+        printWidth: 80,
+        bracketSpacing: true,
+        arrowParens: 'avoid',
+      },
+    ],
+  },
   parserOptions: {
-    ecmaVersion: 'latest'
-  }
+    ecmaVersion: 'latest',
+  },
 }
