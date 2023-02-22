@@ -1,7 +1,7 @@
 <template>
   <main aria-label="내 정보 수정 페이지" class="container">
     <div class="title">
-      <h3>회원 가입</h3>
+      <h3>회원 정보 수정</h3>
     </div>
     <div class="member-info">
       <div class="member-box">
@@ -36,25 +36,10 @@
                       id="cellPhone"
                       type="text"
                       name="cell"
-                      v-model="phoneNumber"
-                      :placeholder="getPlaceHolder()"
+                      v-model="member.phoneNumber"
                     />
                   </td>
                 </tr>
-                <!--                <tr>-->
-                <!--                  <th><mdicon name="image" class="icon" /></th>-->
-                <!--                  <th>-->
-                <!--                    <label for="formFile" class="form-label">회원 프로필</label>-->
-                <!--                  </th>-->
-                <!--                  <td class="size-40">-->
-                <!--                    <input-->
-                <!--                      multiple-->
-                <!--                      type="file"-->
-                <!--                      @change="saveProfileImage()"-->
-                <!--                      ref="profileImage"-->
-                <!--                    />-->
-                <!--                  </td>-->
-                <!--                </tr>-->
               </tbody>
             </table>
             <div class="btn-left">
@@ -74,27 +59,26 @@ export default {
   name: 'RegisterView',
   data() {
     return {
-      phoneNumber: '',
-      profileImage: '',
+      member: {},
     }
   },
   computed: {
     ...mapState('member', ['member']),
   },
   created() {
-    this.phoneNumber = this.member.phoneNumber
+    this.member = this.$store.state.member.member
   },
   methods: {
     async submitForm() {
       const data = {
-        phoneNumber: this.phoneNumber,
+        phoneNumber: this.updatePhoneNumber,
       }
       await this.$store.dispatch('member/UPDATE_MEMBER', data)
       alert('회원가입이 성공적으로 진행되었습니다.')
       this.$router.push('/')
     },
     getPlaceHolder() {
-      if (this.phoneNumber === null || this.phoneNumber === '') {
+      if (this.updatePhoneNumber === null || this.updatePhoneNumber === '') {
         return '휴대전화 번호를 입력해주세요.'
       }
     },
