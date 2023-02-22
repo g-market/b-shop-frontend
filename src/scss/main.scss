@@ -1,0 +1,53 @@
+// Default variable overrides
+$primary: #1277d5;
+$primary-btn: #cbe2f9;
+
+
+/**
+$theme-colors: (
+        "primary":    $primary,
+        "secondary":  $secondary,
+        "success":    $success,
+        "info":       $info,
+        "warning":    $warning,
+        "danger":     $danger,
+        "light":      $light,
+        "dark":       $dark
+);
+*/
+
+$container-max-widths: (
+        sm: 540px,
+        md: 704px,
+        lg: 924px,
+        xl: 1140px,
+        xxl: 1364px
+);
+
+// Required
+@import "/node_modules/bootstrap/scss/functions";
+@import "/node_modules/bootstrap/scss/variables";
+@import "/node_modules/bootstrap/scss/maps";
+@import "/node_modules/bootstrap/scss/mixins";
+@import "/node_modules/bootstrap/scss/root";
+@import "/node_modules/bootstrap/scss/bootstrap";
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Urbanist', sans-serif;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: currentColor;
+  }
+}
+
+//img {
+//  border: none;
+//}
