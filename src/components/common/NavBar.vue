@@ -127,7 +127,7 @@ export default {
     },
     routeHome() {
       this.isMemberDetailSelected = !this.isMemberDetailSelected
-      this.isShowMemberDetail = !this.isShowMemberDetail
+      this.isShowMemberDetail = false
 
       this.$router.push('/')
     },
@@ -139,7 +139,7 @@ export default {
     },
     routeMemberUpdate() {
       this.isMemberDetailSelected = !this.isMemberDetailSelected
-      this.isShowMemberDetail = !this.isShowMemberDetail
+      this.isShowMemberDetail = false
       this.$router.push('/me')
     },
   },

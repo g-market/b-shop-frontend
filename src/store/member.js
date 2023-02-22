@@ -24,8 +24,9 @@ export default {
       state.token = data.token
       state.member.id = data.memberResponse.id
       state.member.email = data.memberResponse.email
-      state.member.phoneNumber =
-        data.memberResponse.phoneNumber == null ? '' : state.member.phoneNumber
+      if (data.memberResponse.phoneNumber != null) {
+        state.member.phoneNumber = data.memberResponse.phoneNumber
+      }
       state.member.name = data.memberResponse.name
       state.member.role = data.memberResponse.role
       state.member.grade = data.memberResponse.grade
