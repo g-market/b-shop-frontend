@@ -2,11 +2,8 @@
   <nav>
     <div class="header-item header-item__left">
       <LogoComponent />
-      <!--    nav-pills: bootstrap#nav#pills-->
       <div class="nav nav-pills">
         <div v-for="nav in navigations" :key="nav.name" class="nav-item">
-          <!--        active-class="router-link-active"-->
-          <!--        이러면 bootstrap이 먹지가 않음 따라서 이를 active로 변경(custom)-->
           <RouterLink
             :to="nav.href"
             active-class="active"
@@ -59,11 +56,11 @@
             </div>
           </div>
           <div class="bottom-menu">
-            <a href="#">
+            <a href="/me" @click="routeMemberUpdate">
               <mdicon name="pencil" />
               회원 정보 수정
             </a>
-            <a href="#">
+            <a @click="logout">
               <mdicon name="logout" />
               로그아웃
             </a>
@@ -80,7 +77,7 @@
 
 <script>
 import LogoComponent from '@/components/LogoComponent.vue'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HeaderNavigation',
@@ -90,8 +87,8 @@ export default {
     return {
       navigations: [
         {
-          name: 'Search',
-          href: '/',
+          name: 'Category',
+          href: '/category',
         },
         {
           name: 'Movie',
@@ -129,7 +126,21 @@ export default {
       this.isShowMemberDetail = !this.isShowMemberDetail
     },
     routeHome() {
+      this.isMemberDetailSelected = !this.isMemberDetailSelected
+      this.isShowMemberDetail = !this.isShowMemberDetail
+
       this.$router.push('/')
+    },
+    async logout() {
+      alert('로그아웃 하시겠습니까?')
+      localStorage.removeItem('vuex')
+      await this.$store.dispatch('member/LOGOUT')
+      location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
+    },
+    routeMemberUpdate() {
+      this.isMemberDetailSelected = !this.isMemberDetailSelected
+      this.isShowMemberDetail = !this.isShowMemberDetail
+      this.$router.push('/me')
     },
   },
 }

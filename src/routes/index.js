@@ -32,6 +32,11 @@ const router = createRouter({
           beforeEnter: authCheck,
           component: () => import('@/views/MemberUpdateView.vue'),
         },
+        {
+          path: '/category',
+          beforeEnter: authCheck,
+          component: () => import('@/views/CategoryView.vue'),
+        },
       ],
     },
     {
