@@ -1,13 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import member from '@/store/member'
 import HomeLayout from '@/views/layout/HomeLayout.vue'
+import store from '@/store/index'
 
 const authCheck = async function (to, from, next) {
-  try {
-    if (!member.getters.isLogin) {
-      this.$store.dispatch('member/REISSUE_ACCESS_TOKEN')
-    }
-  } catch (error) {
+  if (store.state.member.token === '') {
     location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
   }
   next()
@@ -18,18 +14,23 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: HomeLayout,
       children: [
         {
           path: '/',
-          // beforeEnter: authCheck,
+          beforeEnter: authCheck,
           name: 'home',
           component: () => import('@/views/HomeView.vue'),
         },
         {
           path: '/register',
+          beforeEnter: authCheck,
           component: () => import('@/views/MemberRegisterView.vue'),
+        },
+        {
+          path: '/me',
+          beforeEnter: authCheck,
+          component: () => import('@/views/MemberUpdateView.vue'),
         },
       ],
     },
