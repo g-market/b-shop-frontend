@@ -3,11 +3,7 @@
 </template>
 
 <script>
-export default {
-  async created() {
-    this.$store.dispatch('member/REISSUE_ACCESS_TOKEN')
-  },
-}
+export default {}
 </script>
 
 <style lang="scss">
