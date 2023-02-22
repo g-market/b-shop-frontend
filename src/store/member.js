@@ -45,7 +45,6 @@ export default {
       state.token = data.token
     },
     setPhoneNumber(state, phoneNumber) {
-      console.log(phoneNumber)
       state.member.phoneNumber = phoneNumber
     },
   },
