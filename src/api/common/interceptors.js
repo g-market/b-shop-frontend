@@ -2,6 +2,8 @@ import member from '@/store/member'
 import axios from 'axios'
 import { reissueAccessToken } from '@/api/authApi'
 
+axios.defaults.withCredentials = true
+
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
     function (config) {
