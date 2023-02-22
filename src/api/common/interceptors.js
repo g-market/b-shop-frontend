@@ -1,4 +1,4 @@
-import member from '@/store/member'
+import store from '@/store'
 import axios from 'axios'
 import { reissueAccessToken } from '@/api/authApi'
 
@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
     function (config) {
-      config.headers.Authorization = 'Bearer ' + member.state.token
+      config.headers.Authorization = 'Bearer ' + store.state.member.token
       return config
     },
     function (error) {
