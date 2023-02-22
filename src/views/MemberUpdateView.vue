@@ -36,7 +36,7 @@
                       id="cellPhone"
                       type="text"
                       name="cell"
-                      v-model="member.phoneNumber"
+                      v-model="phoneNumber"
                     />
                   </td>
                 </tr>
@@ -56,31 +56,26 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'RegisterView',
+  name: 'MemberUpdateView',
   data() {
     return {
-      member: {},
+      phoneNumber: '',
     }
   },
   computed: {
     ...mapState('member', ['member']),
   },
   created() {
-    this.member = this.$store.state.member.member
+    this.phoneNumber = this.member.phoneNumber
   },
   methods: {
     async submitForm() {
       const data = {
-        phoneNumber: this.updatePhoneNumber,
+        phoneNumber: this.phoneNumber,
       }
       await this.$store.dispatch('member/UPDATE_MEMBER', data)
-      alert('회원가입이 성공적으로 진행되었습니다.')
+      alert('회원정보가 변경되었습니다.')
       this.$router.push('/')
-    },
-    getPlaceHolder() {
-      if (this.updatePhoneNumber === null || this.updatePhoneNumber === '') {
-        return '휴대전화 번호를 입력해주세요.'
-      }
     },
   },
 }
