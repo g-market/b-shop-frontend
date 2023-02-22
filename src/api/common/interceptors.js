@@ -1,5 +1,6 @@
 import member from '@/store/member'
-import { reissueAccessToken } from '@/api/auth'
+import axios from 'axios'
+import { reissueAccessToken } from '@/api/authApi'
 
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
@@ -8,36 +9,35 @@ export function setInterceptors(instance) {
       return config
     },
     function (error) {
-      // Do something with request error
       return Promise.reject(error)
     },
   )
 
-  // Add a response interceptor
   instance.interceptors.response.use(
     response => {
       return response
     },
-    async error => {
-      const originalRequest = error.config
-      if (error.response.status === 401) {
-        let code = error.response.data.code
-        try {
-          if (code === 'EXPIRED') {
-            const accessToken = await reissueAccessToken()
-            originalRequest.headers.Authorization = 'Bearer ' + accessToken
-            return instance(originalRequest)
-          }
-        } catch (authorizedError) {
-          alert('권한이 없습니다. 다시 로그인 해주세요.')
-          return Promise.reject(authorizedError)
-        }
-      } else {
-        if (error.response.data.message) {
-          alert(error.response.data.message)
-        }
-      }
-    },
+    // TODO: accessToken이 만료되었을 때 재발급하고 다시 요청하도록 추후 수정 필요
+    // async error => {
+    //   const originalRequest = error.config
+    //   if (error.response.status === 401) {
+    //     let code = error.response.data.code
+    //     try {
+    //       if (code === 'EXPIRED') {
+    //         const accessToken = await reissueAccessToken()
+    //         originalRequest.headers.Authorization = 'Bearer ' + accessToken
+    //         return axios(originalRequest)
+    //       }
+    //     } catch (error2) {
+    //       window.location.href = process.env.VUE_APP_BASEURL + '/login'
+    //       alert('권한이 없습니다. 다시 로그인 해주세요')
+    //       return Promise.reject(error2)
+    //     }
+    //   } else {
+    //     if (error.response.data.message) alert(error.response.data.message)
+    //   }
+    //   return Promise.reject(error)
+    // },
   )
   return instance
 }
