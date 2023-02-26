@@ -1,62 +1,26 @@
 <template>
-  <section aria-label="제품 검색 영역" className="container">
-    <div className="search-bar">
+  <section aria-label="제품 검색 영역" class="container">
+    <div class="search-bar">
       <input type="text" maxLength="100" placeholder="검색어를 입력해주세요." />
-      <div className="search-icon" aria-hidden="true">
+      <div class="search-icon" aria-hidden="true">
         <mdicon name="magnify" />
       </div>
     </div>
-    <div className="category-list">
-      <div
-        role="radiogroup"
-        aria-label="카테고리 선택하기"
-        className="radio-group"
-      >
-        <span aria-hidden="true" className="category-title"></span>
+    <div class="category-list">
+      <div role="radiogroup" aria-label="카테고리 선택하기" class="radio-group">
+        <span aria-hidden="true" class="category-title"></span>
         <button
-          font-size="13"
-          value="keyboard"
+          v-for="year in years"
+          :key="year"
+          :value="year"
           role="radio"
           aria-checked="true"
-          className="category-item category-active"
+          :class="
+            isSelected(year) ? 'category-item category-active' : 'category-item'
+          "
+          @click="changeSelectedYear(year)"
         >
-          2023
-        </button>
-        <button
-          font-size="13"
-          value="mouse"
-          role="radio"
-          aria-checked="true"
-          className="category-item"
-        >
-          2022
-        </button>
-        <button
-          font-size="13"
-          value="monitor"
-          role="radio"
-          aria-checked="true"
-          className="category-item"
-        >
-          2021
-        </button>
-        <button
-          font-size="13"
-          value="stand"
-          role="radio"
-          aria-checked="true"
-          className="category-item"
-        >
-          2020
-        </button>
-        <button
-          font-size="13"
-          value="software"
-          role="radio"
-          aria-checked="false"
-          className="category-item"
-        >
-          2019
+          {{ year }}
         </button>
       </div>
     </div>
@@ -64,7 +28,30 @@
 </template>
 
 <script>
-export default {}
+import { mapState } from 'vuex'
+
+export default {
+  async created() {
+    if (this.years.length === 0) {
+      await this.$store.dispatch('searchStatus/FETCH_YEARS')
+    }
+  },
+  computed: {
+    ...mapState('searchStatus', ['years', 'selectedYear']),
+  },
+  methods: {
+    isSelected(year) {
+      if (year === this.selectedYear) {
+        return true
+      }
+    },
+    async changeSelectedYear(selectedYear) {
+      this.$store.commit('searchStatus/setSelectedYear', selectedYear)
+      const year = this.$store.state.searchStatus.selectedYear
+      await this.$store.dispatch('item/FETCH_ITEMS', year)
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -90,7 +77,7 @@ section {
       outline: none;
       border: 1px solid $primary;
       border-radius: 1.625rem;
-      padding: 0px 3.5rem 0px 1.5rem;
+      padding: 0 3.5rem 0 1.5rem;
       font-size: 1rem;
     }
 
