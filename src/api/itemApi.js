@@ -2,7 +2,7 @@ import { instanceWithAuth as items } from '@/api/index'
 import store from '@/store'
 
 function fetchItems(year, page) {
-  const size = store.state.searchStatus.size
+  const size = store.state.searchStatus.page.size
   return items.get(`/items?year=${year}&page=${page}&size=${size}`)
 }
 
