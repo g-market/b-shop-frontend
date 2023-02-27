@@ -1,5 +1,5 @@
 <template>
-  <main aria-label="내 정보 수정 페이지" class="container">
+  <main aria-label="내 정보 수정 페이지" class="container card">
     <div class="title">
       <h3>회원 정보 수정</h3>
     </div>
