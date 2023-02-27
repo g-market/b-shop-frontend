@@ -34,6 +34,7 @@ export default {
     logout(state) {
       state.token = ''
       state.member = _initMember()
+      sessionStorage.clear()
     },
     setMember(state, data) {
       state.member.id = data.id

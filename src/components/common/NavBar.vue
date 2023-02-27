@@ -1,75 +1,81 @@
 <template>
-  <nav>
-    <div class="header-item header-item__left">
-      <LogoComponent />
-      <div class="nav nav-pills">
-        <div v-for="nav in navigations" :key="nav.name" class="nav-item">
-          <RouterLink
-            :to="nav.href"
-            active-class="active"
-            class="nav-link"
-            :class="{ active: isMatch(nav.path) }"
-          >
-            {{ nav.name }}
-          </RouterLink>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+      <div class="header-item header-item__left">
+        <LogoComponent />
+        <div class="nav nav-pills">
+          <div v-for="nav in navigations" :key="nav.name" class="nav-item">
+            <RouterLink
+              :to="nav.href"
+              active-class="active"
+              :class="{ active: isMatch(nav.path) }"
+              class="nav-link"
+            >
+              {{ nav.name }}
+            </RouterLink>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="gabia-image">
-      <img
-        src="https://gabiaoffice.hiworks.com/gabia.com/common/logo"
-        alt="gabia logo"
-        @click="routeHome"
-      />
-    </div>
-    <div class="header-item header-item__right">
-      <div v-if="isLogin" class="member-info">
-        <button
-          type="button"
-          :class="
-            isMemberDetailSelected
-              ? 'member-profile-btn icon-btn__selected'
-              : 'member-profile-btn'
-          "
-          @click="changeMemberDetailSelected"
-        >
-          <div class="photo">
-            <img
-              class="member-photo-30"
-              src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
-              alt="member-img"
-            />
-          </div>
-        </button>
-        <div class="member-info-detail" tabindex="0" :style="showMemberDetail">
-          <div class="my-info">
-            <div class="gt-float-left">
+      <div class="gabia-image">
+        <img
+          src="https://gabiaoffice.hiworks.com/gabia.com/common/logo"
+          alt="gabia logo"
+          @click="routeHome"
+        />
+      </div>
+      <div class="header-item header-item__right">
+        <div v-if="isLogin" class="member-info">
+          <button
+            type="button"
+            :class="
+              isMemberDetailSelected
+                ? 'member-profile-btn icon-btn__selected'
+                : 'member-profile-btn'
+            "
+            @click="changeMemberDetailSelected"
+          >
+            <div class="photo">
               <img
+                class="member-photo-30"
                 src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
                 alt="member-img"
-                class="member-photo-75"
               />
             </div>
-            <div class="info-wrapper">
-              <p class="my-name">Jaime(정종민)</p>
-              <p class="my-email">jmchung@gabia.com</p>
+          </button>
+          <div
+            class="member-info-detail"
+            tabindex="0"
+            :style="showMemberDetail"
+          >
+            <div class="my-info">
+              <div class="gt-float-left">
+                <img
+                  src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
+                  alt="member-img"
+                  class="member-photo-75"
+                />
+              </div>
+              <div class="info-wrapper">
+                <p class="my-name">{{ member.name }}</p>
+                <p class="my-email">{{ member.email }}</p>
+              </div>
+            </div>
+            <div class="bottom-menu">
+              <a href="/me" @click="routeMemberUpdate">
+                <mdicon name="pencil" />
+                회원 정보 수정
+              </a>
+              <a @click="logout">
+                <mdicon name="logout" />
+                로그아웃
+              </a>
             </div>
           </div>
-          <div class="bottom-menu">
-            <a href="/me" @click="routeMemberUpdate">
-              <mdicon name="pencil" />
-              회원 정보 수정
-            </a>
-            <a @click="logout">
-              <mdicon name="logout" />
-              로그아웃
-            </a>
-          </div>
         </div>
-      </div>
-      <div v-else @click="hiworksLogin">
-        <mdicon name="login" />
-        로그인
+        <div v-else @click="hiworksLogin">
+          <mdicon name="login" />
+          로그인
+        </div>
       </div>
     </div>
   </nav>
@@ -77,12 +83,11 @@
 
 <script>
 import LogoComponent from '@/components/LogoComponent.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
-  name: 'HeaderNavigation',
+  name: 'NavBar',
   components: { LogoComponent },
-
   data() {
     return {
       navigations: [
@@ -91,13 +96,13 @@ export default {
           href: '/category',
         },
         {
-          name: 'Movie',
-          href: '/movie',
-          path: /^\/movie/,
+          name: 'Cart',
+          href: '/cart',
         },
         {
-          name: 'About',
-          href: '/about',
+          name: 'Item',
+          href: '/items',
+          path: /^\/items/,
         },
       ],
       isShowMemberDetail: false,
@@ -112,6 +117,7 @@ export default {
       return this.isShowMemberDetail ? { display: '' } : { display: 'none' }
     },
     ...mapGetters('member', ['isLogin']),
+    ...mapState('member', ['member']),
   },
   methods: {
     isMatch(path) {
@@ -151,16 +157,7 @@ export default {
 
 nav {
   height: 70px;
-  padding: 10px 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  // 상단 고정 하는 방법 필요
-  //position: fixed;
-  //top: 0;
-  //left: 0;
-  //right: 0;
+  padding: 0 40px;
 
   .header-item {
     display: flex;
