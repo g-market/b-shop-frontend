@@ -10,11 +10,11 @@
       </div>
       <p class="item-title">${{ item.name }}</p>
       <div class="item-sale-info">
-        <div aria-hidden="true" class="item-status">
-          <div aria-hidden="true" class="item-status__icon">
-            <mdicon name="heart" />
+        <div aria-hidden="true" class="item-category">
+          <div aria-hidden="true" class="item-category__icon">
+            <mdicon name="alpha-c-box" />
           </div>
-          <div class="item-buy__count">{{ item.itemStatus }}</div>
+          <div>{{ item.categoryDto.name }}</div>
         </div>
         <div aria-hidden="true" class="item-price">
           <div aria-hidden="true" class="item-price__icon">
@@ -85,23 +85,19 @@ export default {
       display: flex;
       justify-content: space-between;
 
-      .item-status {
+      .item-category {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.4rem;
 
-        .item-status__icon {
+        .item-category__icon {
           width: 14px;
           height: 14px;
           margin-right: 0.5rem;
           display: flex;
           align-items: center;
           color: rgb(246, 190, 190);
-        }
-
-        .item-status-name {
-          font-size: 16px;
         }
       }
 
@@ -118,10 +114,6 @@ export default {
           display: flex;
           align-items: center;
           color: $gray-400;
-        }
-
-        .item-price__count {
-          font-size: 16px;
         }
       }
     }
