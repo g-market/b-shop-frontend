@@ -48,10 +48,18 @@ export default {
     async changeSelectedYear(selectedYear) {
       this.$store.commit('searchStatus/setSelectedYear', selectedYear)
       const year = this.$store.state.searchStatus.selectedYear
-      await this.$store.dispatch('item/FETCH_ITEMS', {
+      const data = await this.$store.dispatch('item/FETCH_ITEMS', {
         year,
         page: 0,
       })
+      const pageData = {
+        number: data.number,
+        totalElements: data.totalElements,
+        totalPages: data.totalPages,
+        first: data.first,
+        last: data.last,
+      }
+      this.$store.commit('searchStatus/initPageElements', pageData)
     },
   },
 }
