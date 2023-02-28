@@ -74,6 +74,7 @@ export default {
         last: data.last,
       }
       this.$store.commit('searchStatus/initPageElements', pageData)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     },
     async prevPage() {
       const year = this.$store.state.searchStatus.selectedYear
