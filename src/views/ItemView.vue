@@ -271,6 +271,14 @@ export default {
       return JSON.stringify(obj)
     },
     addOrderCount(selectedOption) {
+      if (
+        selectedOption.orderCount === selectedOption.itemOption.stockQuantity
+      ) {
+        alert(
+          `[현재 재고] ${selectedOption.itemOption.stockQuantity}개 이하 만큼만 담을 수 있습니다.`,
+        )
+        return
+      }
       selectedOption.orderCount += 1
     },
     minusOrderCount(selectedOption) {
