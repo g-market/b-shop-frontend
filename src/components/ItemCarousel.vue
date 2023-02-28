@@ -2,11 +2,11 @@
   <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button
-        v-for="index in item.itemImageDtoList.length"
+        v-for="(itemImage, index) in item.itemImageDtoList"
         :key="index"
         type="button"
         data-bs-target="#myCarousel"
-        :data-bs-slide-to="index - 1"
+        :data-bs-slide-to="index"
         :class="{ active: isFirst(index) }"
       />
     </div>
@@ -57,14 +57,9 @@ export default {
   computed: {
     ...mapState('item', ['item']),
   },
-  data() {
-    return {
-      currCarousel: 1,
-    }
-  },
   methods: {
     isFirst(index) {
-      if (index === 1) {
+      if (index === 0) {
         return true
       }
     },
