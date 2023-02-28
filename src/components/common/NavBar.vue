@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container">
       <div class="header-item header-item__left">
-        <LogoComponent />
+        <LogoComponent class="pe-3" />
         <div class="nav nav-pills">
           <div v-for="nav in navigations" :key="nav.name" class="nav-item">
             <RouterLink
@@ -27,18 +27,15 @@
         <div v-if="isLogin" class="member-info">
           <button
             type="button"
-            :class="
-              isMemberDetailSelected
-                ? 'member-profile-btn icon-btn__selected'
-                : 'member-profile-btn'
-            "
+            class="member-profile-btn"
+            :class="{ 'icon-btn__selected': isMemberDetailSelected }"
             @click="changeMemberDetailSelected"
           >
             <div class="photo">
               <img
                 class="member-photo-30"
                 src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
-                alt="member-img"
+                alt="멤버 이미지"
               />
             </div>
           </button>
@@ -55,7 +52,7 @@
                   class="member-photo-75"
                 />
               </div>
-              <div class="info-wrapper">
+              <div class="info-wrapper mt-3">
                 <p class="my-name">{{ member.name }}</p>
                 <p class="my-email">{{ member.email }}</p>
               </div>
@@ -84,6 +81,7 @@
 <script>
 import LogoComponent from '@/components/LogoComponent.vue'
 import { mapGetters, mapState } from 'vuex'
+import 'bootstrap'
 
 export default {
   name: 'NavBar',
@@ -110,9 +108,6 @@ export default {
     }
   },
   computed: {
-    image() {
-      return this.$store.state.about.image
-    },
     showMemberDetail() {
       return this.isShowMemberDetail ? { display: '' } : { display: 'none' }
     },
@@ -158,22 +153,20 @@ export default {
 nav {
   height: 70px;
   padding: 0 40px;
+  border-bottom: 2px solid $gray-400;
 
   .header-item {
-    display: flex;
+    //display: flex;
     width: 100%;
     height: 100%;
     align-items: center;
-  }
-
-  .logo {
-    padding-right: 100px;
   }
 
   .gabia-image {
     display: flex;
     align-items: center;
     justify-content: center;
+
     img {
       object-fit: contain;
       width: 150px;
@@ -210,6 +203,7 @@ nav {
     border-radius: 4px;
     padding: 3px;
     position: relative;
+
     .member-photo-30 {
       display: block;
       width: 100%;
@@ -223,9 +217,9 @@ nav {
 
   .member-info-detail {
     position: absolute;
-    width: 400px;
-    top: 55px;
-    right: 50px;
+    width: 350px;
+    top: 52px;
+    right: 75px;
     z-index: 1;
     box-shadow: 2px 5px 4px 0 rgb(0 0 0 / 16%);
     margin-top: 0;
@@ -253,12 +247,11 @@ nav {
       }
 
       .info-wrapper {
-        margin: 0;
         text-align: left;
 
         .my-name {
           font-size: 16px;
-          font-weight: 6000;
+          font-weight: 600;
         }
 
         .my-email {

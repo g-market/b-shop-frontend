@@ -10,3 +10,7 @@ export function formatDate(value) {
   const minutes = date.getMinutes()
   return `${year}-${month}-${day} ${hours}:${minutes}`
 }
+
+export function formatCurrency(value) {
+  return value.toLocaleString('ko-KR') + '원'
+}
