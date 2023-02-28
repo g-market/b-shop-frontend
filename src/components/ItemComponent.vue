@@ -20,7 +20,9 @@
           <div aria-hidden="true" class="item-price__icon">
             <mdicon name="currency-krw" />
           </div>
-          <div class="item-price__count">{{ item.basePrice }}</div>
+          <div class="item-price__count">
+            {{ $filters.formatCurrency(item.basePrice) }}
+          </div>
         </div>
       </div>
     </div>

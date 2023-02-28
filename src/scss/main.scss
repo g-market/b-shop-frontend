@@ -1,7 +1,11 @@
-// Default variable overrides
-$primary: #1277d5;
-$primary-btn: #cbe2f9;
+@charset "UTF-8";
 
+// Default variable overrides
+$primary: #2b7fca;
+$secondary: #5c9cd0;
+$primary-btn: #cbe2f9;
+$carousel-control-color: #cbe2f9;
+$carousel-indicator-active-bg :#cbe2f9;
 
 /**
 $theme-colors: (
@@ -32,12 +36,20 @@ $container-max-widths: (
 @import "/node_modules/bootstrap/scss/root";
 @import "/node_modules/bootstrap/scss/bootstrap";
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   font-family: 'Urbanist', sans-serif;
-  box-sizing: border-box;
 }
 a {
   text-decoration: none;
@@ -46,6 +58,12 @@ a {
   &:hover {
     color: currentColor;
   }
+}
+
+ol, ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 //img {
