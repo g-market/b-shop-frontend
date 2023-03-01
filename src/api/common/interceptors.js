@@ -3,6 +3,7 @@ import axios from 'axios'
 import { reissueAccessToken } from '@/api/authApi'
 
 axios.defaults.withCredentials = true
+const TOKEN_EXPIRED_MESSAGE = '토큰이 만료됐습니다.'
 
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
@@ -19,27 +20,30 @@ export function setInterceptors(instance) {
     response => {
       return response
     },
-    // TODO: accessToken이 만료되었을 때 재발급하고 다시 요청하도록 추후 수정 필요
-    // async error => {
-    //   const originalRequest = error.config
-    //   if (error.response.status === 401) {
-    //     let code = error.response.data.code
-    //     try {
-    //       if (code === 'EXPIRED') {
-    //         const accessToken = await reissueAccessToken()
-    //         originalRequest.headers.Authorization = 'Bearer ' + accessToken
-    //         return axios(originalRequest)
-    //       }
-    //     } catch (error2) {
-    //       window.location.href = process.env.VUE_APP_BASEURL + '/login'
-    //       alert('권한이 없습니다. 다시 로그인 해주세요')
-    //       return Promise.reject(error2)
-    //     }
-    //   } else {
-    //     if (error.response.data.message) alert(error.response.data.message)
-    //   }
-    //   return Promise.reject(error)
-    // },
+    async error => {
+      const originalRequest = error.config
+      if (error.response.status === 401) {
+        const message = error.response.data.message
+        try {
+          if (message === TOKEN_EXPIRED_MESSAGE) {
+            const { data } = await reissueAccessToken()
+            store.commit('member/setToken', data.accessToken)
+            originalRequest.headers.Authorization =
+              'Bearer ' + store.state.member.token
+            return instance(originalRequest)
+          }
+        } catch (error2) {
+          store.commit('member/logout')
+          alert('권한이 없습니다. 다시 로그인 해주세요')
+          return Promise.reject(error2)
+        }
+      } else {
+        if (error.response.data.message) {
+          alert(error.response.data.message)
+        }
+      }
+      return Promise.reject(error)
+    },
   )
   return instance
 }
