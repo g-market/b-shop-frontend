@@ -188,6 +188,7 @@
             src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg"
             class="img-fluid"
             alt=""
+            loading="lazy"
           />
         </div>
         <!--Grid column-->
@@ -198,6 +199,7 @@
             src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg"
             class="img-fluid"
             alt=""
+            loading="lazy"
           />
         </div>
         <!--Grid column-->
@@ -208,6 +210,7 @@
             src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg"
             class="img-fluid"
             alt=""
+            loading="lazy"
           />
         </div>
         <!--Grid column-->
@@ -228,7 +231,6 @@ export default {
   async created() {
     const itemId = this.$route.params.id
     this.$store.dispatch('item/FETCH_ITEM', itemId)
-    console.log(this.item)
   },
   computed: {
     ...mapState('item', ['item']),
@@ -252,11 +254,13 @@ export default {
       const itemOption = JSON.parse(event.target.value)
       const itemId = Number(this.$route.params.id)
       const basePrice = this.item.basePrice
+      const itemName = this.item.name
       const selected = {
         itemId,
         itemOption,
         orderCount: 1,
         basePrice,
+        itemName,
       }
       const original = _uniqBy(this.selectedOptions, 'itemOption.id')
       this.selectedOptions.push(selected)
@@ -307,7 +311,7 @@ export default {
           itemOptionId: selectedOption.itemOption.id,
           orderCount: selectedOption.orderCount,
         }
-        await this.$store.dispatch('order/CREATE_CART', cartCreateRequest)
+        await this.$store.dispatch('cart/CREATE_CART', cartCreateRequest)
       }
       const addCartObj = this.$refs.add_cart
       addCartObj.style.display = 'block'

@@ -95,7 +95,7 @@ export default {
         },
         {
           name: 'Cart',
-          href: '/cart',
+          href: '/carts',
         },
         {
           name: 'Item',
