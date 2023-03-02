@@ -15,33 +15,46 @@ const router = createRouter({
     {
       path: '/',
       component: HomeLayout,
+      beforeEnter: authCheck,
       children: [
         {
           path: '/',
-          beforeEnter: authCheck,
           name: 'home',
           component: () => import('@/views/HomeView.vue'),
         },
         {
           path: '/register',
-          beforeEnter: authCheck,
           component: () => import('@/views/MemberRegisterView.vue'),
         },
         {
           path: '/me',
-          beforeEnter: authCheck,
           component: () => import('@/views/MemberUpdateView.vue'),
         },
         {
           path: '/category',
-          beforeEnter: authCheck,
           component: () => import('@/views/CategoryView.vue'),
+        },
+        {
+          path: '/items/:id',
+          component: () => import('@/views/ItemView.vue'),
+        },
+        {
+          path: '/carts',
+          component: () => import('@/views/CartView.vue'),
+        },
+        {
+          path: '/orders',
+          component: () => import('@/views/OrderView.vue'),
         },
       ],
     },
     {
       path: '/login/oauth2/code/hiworks',
       component: () => import('@/views/layout/AuthSuccess.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('@/views/NotFoundView.vue'),
     },
   ],
 })
