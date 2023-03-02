@@ -1,5 +1,5 @@
 <template>
-  <section :aria-label="name">
+  <section aria-label="아이템 리스트">
     <div class="container" role="feed" aria-busy="true">
       <ul>
         <li v-for="item in items" :key="item.id">

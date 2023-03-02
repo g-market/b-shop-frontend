@@ -43,8 +43,8 @@ export default {
       state.member.phoneNumber =
         data.phoneNumber == null ? '' : state.member.phoneNumber
     },
-    setToken(state, data) {
-      state.token = data.token
+    setToken(state, token) {
+      state.token = token
     },
     setPhoneNumber(state, phoneNumber) {
       state.member.phoneNumber = phoneNumber
@@ -59,14 +59,6 @@ export default {
     async LOGOUT({ commit }) {
       await logout()
       commit('logout')
-    },
-    async REISSUE_ACCESS_TOKEN({ commit }) {
-      try {
-        const { data } = await reissueAccessToken()
-        commit('setToken', data.token)
-      } catch (error) {
-        console.log(error.response.data.message)
-      }
     },
     async FETCH_MEMBER({ commit }) {
       const { data } = await fetchMember()
