@@ -17,7 +17,12 @@ export default {
   },
   actions: {
     async FETCH_ITEMS({ commit }, searchParam) {
-      const { data } = await fetchItems(searchParam.year, searchParam.page)
+      const { data } = await fetchItems(
+        searchParam.year,
+        searchParam.category,
+        searchParam.itemName,
+        searchParam.page,
+      )
       commit('fetchItems', data.content)
       return data
     },
