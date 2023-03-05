@@ -1,67 +1,92 @@
 <template>
-  <main aria-label="내 정보 수정 페이지" class="container card">
-    <div class="title">
-      <h3>회원 가입</h3>
-    </div>
-    <div class="member-info">
-      <div class="member-box">
-        <form @submit.prevent="submitForm">
-          <div class="form-wrapper">
-            <table aria-label="회원 정보">
-              <colgroup>
-                <col style="width: 20px" />
-                <col style="width: 180px" />
-                <col />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th><mdicon name="account" class="icon" /></th>
-                  <th>이름</th>
-                  <td>
-                    <p>{{ member.name }}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <th><mdicon name="email-multiple-outline" class="icon" /></th>
-                  <th>이메일</th>
-                  <td>
-                    <p>{{ member.email }}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <th><mdicon name="cellphone-sound" class="icon" /></th>
-                  <th><label for="cellPhone">휴대전화</label></th>
-                  <td>
-                    <input
-                      id="cellPhone"
-                      type="text"
-                      name="cell"
-                      v-model="phoneNumber"
-                      :placeholder="getPlaceHolder()"
-                    />
-                  </td>
-                </tr>
-                <!--                <tr>-->
-                <!--                  <th><mdicon name="image" class="icon" /></th>-->
-                <!--                  <th>-->
-                <!--                    <label for="formFile" class="form-label">회원 프로필</label>-->
-                <!--                  </th>-->
-                <!--                  <td class="size-40">-->
-                <!--                    <input-->
-                <!--                      multiple-->
-                <!--                      type="file"-->
-                <!--                      @change="saveProfileImage()"-->
-                <!--                      ref="profileImage"-->
-                <!--                    />-->
-                <!--                  </td>-->
-                <!--                </tr>-->
-              </tbody>
-            </table>
-            <div class="btn-left">
-              <button type="submit" class="btn btn-primary">저장</button>
+  <main aria-label="회원가입 페이지" class="container-xl px-5 mt-4">
+    <h1 class="h3 mb-4 text-muted">회원가입</h1>
+
+    <div class="row">
+      <div class="col-4">
+        <div class="card mb-4 mb-xl-0">
+          <div class="card-header">프로필 사진</div>
+          <div class="card-body text-center member-image position-relative">
+            <img
+              class="img-account-profile rounded-circle mb-2"
+              :src="this.profileImageUrl"
+              alt=""
+            />
+            <div class="small font-italic text-muted mb-4">
+              JPG or PNG no larger than 5 MB
+            </div>
+            <div class="new-profile d-flex align-items-center mt-5 w-auto">
+              <label class="custom-file-label" for="customFile"
+                ><mdicon name="face-man-profile" class="d-flex" />
+              </label>
+              <input
+                class="ms-3 form-control"
+                id="customFile"
+                accept="image/*"
+                ref="profileRef"
+                type="file"
+                @change="handleProfileChange"
+              />
             </div>
           </div>
-        </form>
+        </div>
+      </div>
+      <div class="col-8">
+        <!-- Account details card-->
+        <div class="card mb-4">
+          <div class="card-header">사용자 정보</div>
+          <div class="card-body">
+            <form @submit.prevent="submitForm">
+              <!-- Form Group (username)-->
+              <div class="mb-3 d-flex align-items-center">
+                <label class="small me-4" for="inputUsername"
+                  ><mdicon name="account" class="d-flex"
+                /></label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Enter your username"
+                  :value="member.name"
+                  disabled
+                />
+              </div>
+              <div class="mb-3 d-flex align-items-center">
+                <label class="small me-4" for="inputUsername"
+                  ><mdicon name="email-multiple-outline" class="d-flex"
+                /></label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Enter your username"
+                  :value="member.email"
+                  disabled
+                />
+              </div>
+              <div class="mb-3 d-flex align-items-center">
+                <label class="small me-4" for="inputUsername"
+                  ><mdicon name="cellphone-sound" class="d-flex"
+                /></label>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="휴대전화번호를 기입해주세요."
+                  v-model="this.phoneNumber"
+                  @input="checkPhoneNumber($event)"
+                  ref="phoneNumberInput"
+                />
+                <div
+                  id="validationServer03Feedback"
+                  class="ms-2 invalid-feedback"
+                >
+                  올바른 휴대전화번호가 아닙니다. (010XXXXXXXX)
+                </div>
+              </div>
+              <div class="d-grid d-md-flex justify-content-md-end">
+                <button class="btn btn-primary" type="submit">회원가입</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -71,11 +96,12 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'RegisterView',
+  name: 'MemberRegisterView',
   data() {
     return {
       phoneNumber: '',
-      profileImage: '',
+      profileImageUrl: '',
+      phoneRule: /^010(\d){4}(\d){4}$/,
     }
   },
   computed: {
@@ -83,94 +109,59 @@ export default {
   },
   created() {
     this.phoneNumber = this.member.phoneNumber
+    this.profileImageUrl = this.member.profileImageUrl
   },
   methods: {
     async submitForm() {
       const data = {
         phoneNumber: this.phoneNumber,
+        profileImageUrl: this.profileImageUrl,
       }
       await this.$store.dispatch('member/UPDATE_MEMBER', data)
       alert('회원가입이 성공적으로 진행되었습니다.')
       this.$router.push('/')
     },
-    getPlaceHolder() {
-      if (this.phoneNumber === null || this.phoneNumber === '') {
-        return '휴대전화 번호를 입력해주세요.'
+    async handleProfileChange(event) {
+      this.fileName = event.target.files[0].name
+      const formData = new FormData()
+      for (const file of event.target.files) {
+        formData.append('fileList', file)
       }
+      const data = await this.$store.dispatch(
+        'member/UPDATE_PROFILE_IMAGE_URL',
+        formData,
+      )
+      this.profileImageUrl = data[0].url
+    },
+    checkPhoneNumber($event) {
+      const isValid = this.phoneRule.test(this.phoneNumber)
+      if (isValid) {
+        $event.target.classList.remove('is-invalid')
+        $event.target.classList.add('is-valid')
+        return
+      }
+      $event.target.classList.remove('is-valid')
+      $event.target.classList.add('is-invalid')
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.title {
-  padding: 20px 25px 0 23px;
-  min-width: 733px;
-  height: 40px;
-  border-bottom: 1px solid #f2f4f3;
-  margin-top: 3rem;
-  h3 {
-    font-size: 22px;
-  }
-}
-
-.member-info {
-  margin-top: 3rem;
-}
-
-.member-box {
-  min-height: 400px;
-  min-width: 500px;
+.member-image {
   width: 100%;
-  .form-wrapper {
-    padding: 30px 25px 0;
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      colgroup {
-        display: table-column-group;
-      }
-      col {
-        display: table-column;
-      }
-      tbody {
-        display: table-row-group;
-        vertical-align: middle;
-        border-color: inherit;
-        th {
-          padding-top: 10px;
-          text-align: left;
-          vertical-align: top;
-          font-weight: 400;
-        }
-        tr {
-          display: table-row;
-          vertical-align: inherit;
-          border-color: inherit;
-          td {
-            height: 30px;
-            padding: 10px 0;
-            vertical-align: top;
-          }
-        }
-      }
-    }
-  }
-}
-.btn-left {
-  width: 100%;
-  padding: 50px 0px;
-  text-align: left;
-}
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid rgb(207, 207, 207);
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-.icon {
-  margin-right: 15px;
-}
-td input {
-  font-size: 0.8rem;
-  display: block;
-  width: 30%;
-  height: 1.5rem;
-  padding: 15px 0px;
+  img {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+  }
 }
 </style>
