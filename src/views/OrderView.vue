@@ -95,7 +95,6 @@ export default {
   components: { OrderItemComponent },
   computed: {
     ...mapState('order', ['selectedOptions']),
-    ...mapState('order', ['orderResponse']),
     ...mapState('member', ['member']),
     getTotalPrice() {
       let totalPrice = 0
@@ -120,9 +119,12 @@ export default {
           orderCount: selectedOption.orderCount,
         })
       }
-      await this.$store.dispatch('order/CREATE_ORDER', orderItemList)
+      const data = await this.$store.dispatch(
+        'order/CREATE_ORDER',
+        orderItemList,
+      )
       alert('주문이 정상적으로 진행되었습니다.')
-      this.$router.push('/')
+      this.$router.push(`/orders/${data.id}`)
     },
   },
 }
