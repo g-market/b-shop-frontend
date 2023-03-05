@@ -1,5 +1,6 @@
 import { login, logout, reissueAccessToken } from '@/api/authApi'
 import { fetchMember, patchMember } from '@/api/memberApi'
+import { uploadImage } from '@/api/imageApi'
 
 export default {
   namespaced: true,
@@ -11,6 +12,7 @@ export default {
       name: '',
       role: '',
       grade: '',
+      profileImageUrl: '',
     },
     token: '',
   },
@@ -30,6 +32,7 @@ export default {
       state.member.name = data.memberResponse.name
       state.member.role = data.memberResponse.role
       state.member.grade = data.memberResponse.grade
+      state.member.profileImageUrl = data.memberResponse.profileImageUrl
     },
     logout(state) {
       state.token = ''
@@ -48,6 +51,14 @@ export default {
     },
     setPhoneNumber(state, phoneNumber) {
       state.member.phoneNumber = phoneNumber
+    },
+    setProfileImageUrl(state, profileImageUrl) {
+      state.member.profileImageUrl = profileImageUrl
+    },
+
+    setProfile(state, memberUpdateRequest) {
+      state.member.phoneNumber = memberUpdateRequest.phoneNumber
+      state.member.profileImageUrl = memberUpdateRequest.profileImageUrl
     },
   },
   actions: {
@@ -70,11 +81,15 @@ export default {
       try {
         const { data } = await patchMember(memberUpdateRequest)
         console.log(memberUpdateRequest)
-        commit('setPhoneNumber', memberUpdateRequest.phoneNumber)
+        commit('setProfile', memberUpdateRequest)
         return data
       } catch (error) {
         console.log(error)
       }
+    },
+    async UPDATE_PROFILE_IMAGE_URL({ commit }, formData) {
+      const { data } = await uploadImage(formData)
+      return data
     },
   },
 }
@@ -87,5 +102,6 @@ function _initMember() {
     name: '',
     role: '',
     grade: '',
+    profileImageUrl: '',
   }
 }

@@ -34,7 +34,7 @@
             <div class="photo">
               <img
                 class="member-photo-30"
-                src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
+                :src="member.profileImageUrl"
                 alt="멤버 이미지"
               />
             </div>
@@ -47,7 +47,7 @@
             <div class="my-info">
               <div class="gt-float-left">
                 <img
-                  src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
+                  :src="member.profileImageUrl"
                   alt="member-img"
                   class="member-photo-75"
                 />
@@ -90,17 +90,13 @@ export default {
     return {
       navigations: [
         {
-          name: 'Category',
-          href: '/category',
-        },
-        {
-          name: 'Cart',
+          name: '장바구니',
           href: '/carts',
         },
         {
-          name: 'Item',
-          href: '/items',
-          path: /^\/items/,
+          name: '주문 조회',
+          href: '/order-infos',
+          path: /^\/order-infos/,
         },
       ],
       isShowMemberDetail: false,
@@ -126,10 +122,19 @@ export default {
       this.isMemberDetailSelected = !this.isMemberDetailSelected
       this.isShowMemberDetail = !this.isShowMemberDetail
     },
-    routeHome() {
+    async routeHome() {
       this.isMemberDetailSelected = !this.isMemberDetailSelected
       this.isShowMemberDetail = false
 
+      this.$store.commit(
+        'searchStatus/initSelectedYearAndSelectedCategoryAndItemName',
+      )
+      await this.$store.dispatch('item/FETCH_ITEMS', {
+        year: 2023,
+        category: null,
+        itemName: null,
+        page: 0,
+      })
       this.$router.push('/')
     },
     async logout() {
@@ -189,6 +194,7 @@ nav {
   .header-item__right {
     display: flex;
     justify-content: flex-end;
+    position: relative;
   }
 }
 
@@ -219,7 +225,7 @@ nav {
     position: absolute;
     width: 350px;
     top: 52px;
-    right: 75px;
+    right: 0;
     z-index: 1;
     box-shadow: 2px 5px 4px 0 rgb(0 0 0 / 16%);
     margin-top: 0;
