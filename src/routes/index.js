@@ -31,10 +31,6 @@ const router = createRouter({
           component: () => import('@/views/MemberUpdateView.vue'),
         },
         {
-          path: '/category',
-          component: () => import('@/views/CategoryView.vue'),
-        },
-        {
           path: '/items/:id',
           component: () => import('@/views/ItemView.vue'),
         },
@@ -45,6 +41,14 @@ const router = createRouter({
         {
           path: '/orders',
           component: () => import('@/views/OrderView.vue'),
+        },
+        {
+          path: '/order-infos',
+          component: () => import('@/views/OrderInfoView.vue'),
+        },
+        {
+          path: '/orders/:id',
+          component: () => import('@/views/OrderSuccessView.vue'),
         },
       ],
     },

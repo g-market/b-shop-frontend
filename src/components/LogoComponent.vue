@@ -1,10 +1,26 @@
 <template>
-  <RouterLink to="/" class="logo"><span>B </span>SHOP</RouterLink>
+  <RouterLink to="/" class="logo" @click="initSearchParams()"
+    ><span>B </span>SHOP</RouterLink
+  >
 </template>
 
 <script>
 export default {
   name: 'LogoComponent',
+  methods: {
+    async initSearchParams() {
+      this.$store.commit(
+        'searchStatus/initSelectedYearAndSelectedCategoryAndItemName',
+      )
+      await this.$store.dispatch('item/FETCH_ITEMS', {
+        year: 2023,
+        category: null,
+        itemName: null,
+        page: 0,
+      })
+      this.$router.go('/')
+    },
+  },
 }
 </script>
 
