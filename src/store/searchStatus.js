@@ -1,11 +1,14 @@
 import { fetchYears } from '@/api/itemApi'
+import { fetchCategories } from '@/api/categoryApi'
 
 export default {
   namespaced: true,
   state: {
     selectedYear: 2023,
-    category: '',
+    categories: [],
+    selectedCategory: null,
     years: [],
+    itemName: null,
     page: {
       number: 0,
       size: 12,
@@ -17,16 +20,17 @@ export default {
   },
   getters: {},
   mutations: {
-    initSearchStatus(state) {
-      state.selectedYear = 2023
-      state.category = ''
-    },
     initYears(state, data) {
-      console.log(data)
       state.years = data
+    },
+    initCategories(state, data) {
+      state.categories = data
     },
     setSelectedYear(state, selectedYear) {
       state.selectedYear = selectedYear
+    },
+    setSelectedCategory(state, selectedCategory) {
+      state.selectedCategory = selectedCategory
     },
     initPageElements(state, data) {
       state.page.number = data.number
@@ -35,14 +39,24 @@ export default {
       state.page.first = data.first
       state.page.last = data.last
     },
-    setPage(state, page) {
-      state.page = page
+    initSelectedYearAndSelectedCategoryAndItemName(state) {
+      state.selectedYear = 2023
+      state.itemName = null
+      state.selectedCategory = null
+    },
+    setItemName(state, itemName) {
+      state.itemName = itemName
     },
   },
   actions: {
     async FETCH_YEARS({ commit }) {
       const { data } = await fetchYears()
       commit('initYears', data)
+      return data
+    },
+    async FETCH_CATEGORIES({ commit }) {
+      const { data } = await fetchCategories()
+      commit('initCategories', data)
       return data
     },
   },

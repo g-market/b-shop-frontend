@@ -52,7 +52,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'PaginationComponent',
   computed: {
-    ...mapState('searchStatus', ['page']),
+    ...mapState('searchStatus', ['page', 'itemName']),
   },
   methods: {
     isSelected(currPage) {
@@ -62,9 +62,12 @@ export default {
     },
     async changeSelectedPage(currPage) {
       const year = this.$store.state.searchStatus.selectedYear
+      const category = this.$store.state.searchStatus.selectedCategory
       const data = await this.$store.dispatch('item/FETCH_ITEMS', {
         year,
         page: currPage - 1,
+        category,
+        itemName: this.itemName,
       })
       const pageData = {
         number: data.number,
@@ -77,11 +80,14 @@ export default {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     },
     async prevPage() {
-      const year = this.$store.state.searchStatus.selectedYear
       const number = this.page.number - 1
+      const year = this.$store.state.searchStatus.selectedYear
+      const category = this.$store.state.searchStatus.selectedCategory
       const data = await this.$store.dispatch('item/FETCH_ITEMS', {
         year,
         page: number,
+        category,
+        itemName: this.itemName,
       })
       const pageData = {
         number: data.number,
@@ -93,11 +99,14 @@ export default {
       this.$store.commit('searchStatus/initPageElements', pageData)
     },
     async nextPage() {
-      const year = this.$store.state.searchStatus.selectedYear
       const number = this.page.number + 1
+      const year = this.$store.state.searchStatus.selectedYear
+      const category = this.$store.state.searchStatus.selectedCategory
       const data = await this.$store.dispatch('item/FETCH_ITEMS', {
         year,
         page: number,
+        category,
+        itemName: this.itemName,
       })
       const pageData = {
         number: data.number,
