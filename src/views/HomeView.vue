@@ -5,7 +5,7 @@ import PaginationComponent from '@/components/PaginationComponent.vue'
 </script>
 
 <template>
-  <main aria-label="제품 검색 페이지" class="container">
+  <main aria-label="홈 페이지">
     <SearchComponent />
     <ItemListComponent />
     <PaginationComponent />
@@ -15,9 +15,3 @@ import PaginationComponent from '@/components/PaginationComponent.vue'
 <script>
 export default {}
 </script>
-
-<style lang="scss" scoped>
-main {
-  padding-top: 100px;
-}
-</style>
