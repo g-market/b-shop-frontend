@@ -1,11 +1,11 @@
 import { instanceWithAuth as orders } from '@/api/index'
 
-function fetchOrders(dateParam) {
-  if (dateParam == null) {
-    return orders.get(`/orders`)
+function fetchOrders(orderSearchConditions, pageable) {
+  if (orderSearchConditions == null) {
+    return orders.get(`/orders?page=${pageable.page}&size=${pageable.size}`)
   }
   return orders.get(
-    `/orders?startDate=${dateParam.startDate}&endDate=${dateParam.endDate}`,
+    `/orders?startDate=${orderSearchConditions.startDate}&endDate=${orderSearchConditions.endDate}&page=${pageable.page}&size=${pageable.size}`,
   )
 }
 
