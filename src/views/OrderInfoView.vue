@@ -59,6 +59,7 @@ const endDateFormat = endDate => {
           <VueDatePicker
             class="col"
             v-model="startDate"
+            model-type="yyyy-MM-dd'T'HH:mm:ss"
             :format="startDateFormat"
             ref="startDate"
             utc
@@ -66,6 +67,7 @@ const endDateFormat = endDate => {
           <VueDatePicker
             class="col"
             v-model="endDate"
+            model-type="yyyy-MM-dd'T'HH:mm:ss"
             :format="endDateFormat"
             ref="startDate"
             utc
@@ -78,18 +80,27 @@ const endDateFormat = endDate => {
           <table class="table table-borderless mb-0">
             <thead class="border-bottom">
               <tr class="small text-uppercase text-muted">
-                <th scope="col">주문 정보</th>
+                <th scope="col">주문 번호</th>
+                <th scope="col" class="text-center">주문 정보</th>
                 <th scope="col" class="text-center">주문 일자</th>
                 <th scope="col" class="text-center">주문 상태</th>
-                <th scope="col" class="text-center">주문 금액(수량)</th>
+                <th scope="col" class="text-center">주문 금액</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 class="border-bottom"
-                v-for="orderInfo in orders.orderInfoList"
+                v-for="orderInfo in orders"
                 :key="orderInfo.orderId"
               >
+                <td class="text-center">
+                  <RouterLink
+                    :to="`/orders/${orderInfo.orderId}`"
+                    class="link__order"
+                  >
+                    {{ orderInfo.orderId }}
+                  </RouterLink>
+                </td>
                 <td>
                   <div class="item-wrapper d-flex">
                     <div class="item-thumbnail w-25 h-25">
@@ -107,12 +118,17 @@ const endDateFormat = endDate => {
                     <div
                       class="itemInfo-wrapper d-flex flex-column justify-content-center"
                     >
-                      <div class="">
+                      <RouterLink
+                        :to="`/orders/${orderInfo.orderId}`"
+                        class="link__order"
+                      >
                         {{ orderInfo.itemName }}
-                      </div>
-                      <div class="description">
-                        옵션 : {{ orderInfo.orderStatus }}
-                      </div>
+                        <span class="description">
+                          {{
+                            this.showCount(orderInfo.itemTotalCount - 1)
+                          }}</span
+                        >
+                      </RouterLink>
                     </div>
                   </div>
                 </td>
@@ -122,60 +138,9 @@ const endDateFormat = endDate => {
                 <td class="text-center">
                   {{ $filters.changeKoreanOrderStatus(orderInfo.orderStatus) }}
                 </td>
-                <!--                <td class="">-->
-                <!--                  <div-->
-                <!--                    class="d-flex flex-column justify-content-center align-items-center"-->
-                <!--                  >-->
-                <!--                    <div>-->
-                <!--                      {{-->
-                <!--                        $filters.formatCurrency(-->
-                <!--                          orderItem.price * orderItem.orderCount,-->
-                <!--                        )-->
-                <!--                      }}-->
-                <!--                    </div>-->
-                <!--                    <div class="description">{{ orderItem.orderCount }}개</div>-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--              </tr>-->
-                <!--              <tr>-->
-                <!--                <td colspan="3" class="text-end pb-0">-->
-                <!--                  <div class="text-uppercase small fw-700 text-muted">-->
-                <!--                    상품금액:-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--                <td class="text-end pb-0">-->
-                <!--                  <div class="h5 mb-0 fw-700">-->
-                <!--                    {{ $filters.formatCurrency(orderInfoResponse.totalPrice) }}-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--              </tr>-->
-                <!--              <tr>-->
-                <!--                <td colspan="3" class="text-end pb-0">-->
-                <!--                  <div class="text-uppercase small fw-700 text-muted">-->
-                <!--                    배송비:-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--                <td class="text-end pb-0">-->
-                <!--                  <div class="h5 mb-0 fw-700">-->
-                <!--                    {{ $filters.formatCurrency(deliveryPrice) }}-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--              </tr>-->
-                <!--              <tr>-->
-                <!--                <td colspan="3" class="text-end pb-0">-->
-                <!--                  <div class="text-uppercase small fw-700 text-muted">-->
-                <!--                    총 결제 금액:-->
-                <!--                  </div>-->
-                <!--                </td>-->
-                <!--                <td class="text-end pb-0">-->
-                <!--                  <div class="h5 mb-0 fw-700 text-primary">-->
-                <!--                    {{-->
-                <!--                      $filters.formatCurrency(-->
-                <!--                        orderInfoResponse.totalPrice + deliveryPrice,-->
-                <!--                      )-->
-                <!--                    }}-->
-                <!--                  </div>-->
-                <!--                </td>-->
+                <td class="text-center">
+                  {{ $filters.formatCurrency(orderInfo.totalPrice) }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -203,17 +168,71 @@ const endDateFormat = endDate => {
       </div>
     </div>
   </main>
+  <section class="pt-5">
+    <div class="row">
+      <nav id="pagination" aria-label="Page navigation">
+        <div
+          role="radiogroup"
+          aria-label="페이지 선택하기"
+          class="radio-group pagination justify-content-center"
+        >
+          <button
+            :class="
+              page.first
+                ? 'page-item page-link disabled'
+                : 'page-item page-link'
+            "
+            @click="prevPage()"
+          >
+            Prev
+          </button>
+          <button
+            v-for="currPage in page.totalPages"
+            :key="currPage"
+            :value="currPage"
+            role="radio"
+            aria-checked="true"
+            :class="
+              isSelectedPage(currPage)
+                ? 'page-item page-link active'
+                : 'page-item page-link'
+            "
+            @click="changeSelectedPage(currPage)"
+          >
+            {{ currPage }}
+          </button>
+          <button
+            :class="
+              page.last ? 'page-item page-link disabled' : 'page-item page-link'
+            "
+            @click="nextPage()"
+          >
+            Next
+          </button>
+        </div>
+      </nav>
+    </div>
+  </section>
 </template>
 
 <script>
-import { formatSimpleDate } from '@/utils/filters'
 import { mapState } from 'vuex'
+import { formatSimpleDate } from '@/utils/filters'
+import moment from 'moment'
 
 export default {
   name: 'OrderInfoView',
   async created() {
-    this.$store.dispatch('order/FETCH_ORDERS', null)
-    console.log(this.orders)
+    const pageable = {
+      page: this.page.number,
+      size: this.size,
+    }
+    const searchParams = {
+      orderSearchConditions: null,
+      pageable,
+    }
+    const data = await this.$store.dispatch('order/FETCH_ORDERS', searchParams)
+    this.setPage(data)
   },
   data() {
     return {
@@ -222,6 +241,14 @@ export default {
       periods: ['1주일', '1개월', '3개월', '전체 시기'],
       selectedPeriod: '전체 시기',
       orderStatusList: ['전체 상태', 'ACCEPTED', 'COMPLETED', 'CANCELLED'],
+      page: {
+        number: 0,
+        totalElements: 0,
+        totalPages: 0,
+        first: true,
+        last: false,
+      },
+      size: 10,
     }
   },
   computed: {
@@ -244,22 +271,165 @@ export default {
       } else if (period === '3개월') {
         this.startDate.setDate(this.endDate.getDate() - 90)
       } else {
-        this.endDate = null
         this.startDate = null
+        this.endDate = null
       }
     },
     async fetchOrderInfos() {
-      if (this.startDate == null || this.endDate == null) {
-        alert('검색 기간을 설정해 주세요')
+      if (this.startDate == null && this.endDate == null) {
+        this.startDate = null
+        this.endDate = null
+        const pageable = {
+          page: 0,
+          size: this.size,
+        }
+        const searchParams = {
+          orderSearchConditions: null,
+          pageable,
+        }
+        const data = await this.$store.dispatch(
+          'order/FETCH_ORDERS',
+          searchParams,
+        )
+        this.setPage(data)
+        return data
+      }
+      if (this.startDate == null && this.endDate != null) {
+        alert('시작일과 종료일을 둘 다 기입해주세요.')
         return
       }
-      const startDate = formatSimpleDate(this.startDate.toISOString())
-      const endDate = formatSimpleDate(this.endDate.toISOString())
-      const dateParam = {
+
+      if (this.startDate != null && this.endDate == null) {
+        alert('시작일과 종료일을 둘 다 기입해주세요.')
+        return
+      }
+
+      if (moment(this.startDate).isAfter(this.endDate)) {
+        alert('시작일은 종료일보다 클 수 없습니다.')
+        return
+      }
+      const startDate = this.formatStartLocalDateTime(this.startDate)
+      const endDate = this.formatEndLocalDateTime(this.endDate)
+      const orderSearchConditions = {
         startDate,
         endDate,
       }
-      this.$store.dispatch('order/FETCH_ORDERS', dateParam)
+      const pageable = {
+        page: 0,
+        size: this.size,
+      }
+      const searchParams = {
+        orderSearchConditions,
+        pageable,
+      }
+      const data = await this.$store.dispatch(
+        'order/FETCH_ORDERS',
+        searchParams,
+      )
+      this.setPage(data)
+      return data
+    },
+    showCount(number) {
+      if (number === 0) {
+        return
+      }
+      return '외' + ` ${number}` + '건'
+    },
+    formatStartLocalDateTime(date) {
+      let localDateTime = formatSimpleDate(date)
+      return localDateTime + 'T00:00:00'
+    },
+    formatEndLocalDateTime(date) {
+      let localDateTime = formatSimpleDate(date)
+      return localDateTime + 'T23:59:59'
+    },
+    isSelectedPage(currPage) {
+      if (this.page.number + 1 === currPage) {
+        return true
+      }
+    },
+    async changeSelectedPage(currPage) {
+      this.page.number = currPage - 1
+      const data = await this.fetchOrdersByPageMove()
+      this.setPage(data)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    },
+    async prevPage() {
+      this.page.number -= 1
+      const data = await this.fetchOrderInfos()
+      this.setPage(data)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    },
+    async nextPage() {
+      this.page.number += 1
+      const data = await this.fetchOrderInfos()
+      this.setPage(data)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    },
+    async fetchOrdersByPageMove() {
+      if (this.startDate == null && this.endDate == null) {
+        this.startDate = null
+        this.endDate = null
+        const pageable = {
+          page: this.page.number,
+          size: this.size,
+        }
+        const searchParams = {
+          orderSearchConditions: null,
+          pageable,
+        }
+        const data = await this.$store.dispatch(
+          'order/FETCH_ORDERS',
+          searchParams,
+        )
+        this.setPage(data)
+        return data
+      }
+      if (this.startDate == null && this.endDate != null) {
+        alert('시작일과 종료일을 둘 다 기입해주세요.')
+        return
+      }
+
+      if (this.startDate != null && this.endDate == null) {
+        alert('시작일과 종료일을 둘 다 기입해주세요.')
+        return
+      }
+
+      if (moment(this.startDate).isAfter(this.endDate)) {
+        alert('시작일은 종료일보다 클 수 없습니다.')
+        return
+      }
+      const startDate = this.formatStartLocalDateTime(this.startDate)
+      const endDate = this.formatEndLocalDateTime(this.endDate)
+
+      const orderSearchConditions = {
+        startDate,
+        endDate,
+      }
+
+      const pageable = {
+        page: this.page.number,
+        size: this.size,
+      }
+      const searchParams = {
+        orderSearchConditions,
+        pageable,
+      }
+      const data = await this.$store.dispatch(
+        'order/FETCH_ORDERS',
+        searchParams,
+      )
+      this.setPage(data)
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    },
+    setPage(data) {
+      this.page = {
+        number: data.number,
+        totalElements: data.totalElements,
+        totalPages: data.totalPages,
+        first: data.first,
+        last: data.last,
+      }
     },
   },
 }
