@@ -24,7 +24,7 @@
                 :key="cartMapValue.itemOptionId"
               >
                 <div class="row">
-                  <div class="mb-2 col">
+                  <div class="mb-2 col w-25 h-25">
                     <RouterLink
                       :to="`/items/${cartMapValue.itemId}`"
                       class="link__item"
@@ -32,9 +32,9 @@
                     >
                       <!--        <img :src="item.thumbnail" alt="item 썸네일" class="rounded" />-->
                       <img
-                        src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
+                        :src="cartMapValue.itemThumbnailUrl"
                         alt="item 썸네일"
-                        class="rounded"
+                        class="rounded w-50"
                       />
                     </RouterLink>
                   </div>
@@ -252,6 +252,7 @@ export default {
             orderCount: data.orderCount,
             basePrice: data.basePrice,
             itemName: data.name,
+            thumbnail: data.itemThumbnailUrl,
           }
           selectedOptions.push(selectedOption)
         }
