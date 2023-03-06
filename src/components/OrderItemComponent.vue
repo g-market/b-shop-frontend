@@ -1,12 +1,11 @@
 <template>
   <div class="d-flex">
-    <div class="item-thumbnail w-25 h-100 mb-2">
-      <RouterLink :to="`/items/${item.id}`" class="link__item" target="_blank">
-        <!--        <img :src="item.thumbnail" alt="item 썸네일" class="rounded" />-->
+    <div class="item-thumbnail w-25 h-25 mb-2">
+      <RouterLink :to="`/items/${item.id}`" class="link__item">
         <img
-          src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
+          :src="selectedOption.thumbnail"
           alt="item 썸네일"
-          class="rounded"
+          class="rounded w-50"
         />
       </RouterLink>
     </div>
