@@ -6,8 +6,6 @@
           <ItemCarousel />
         </div>
         <div class="col-md-6 mb-4 h-100">
-          <!--Content-->
-          <!--Item Badge-->
           <div class="p-4">
             <div class="mb-3">
               <span class="badge bg-primary me-1">
@@ -167,55 +165,17 @@
 
       <hr />
 
-      <!--Grid row-->
-      <div class="row d-flex justify-content-center">
-        <!--Grid column-->
-        <div class="col-md-6 text-center">
-          <h4 class="my-4 h4">제품 상세 정보</h4>
-          <p>
-            {{ item.description }}
-          </p>
+      <div class="container-fluid">
+        <div class="row">
+          <!--Grid column-->
+          <div class="col text-center">
+            <p class="my-4 display-6 text-center">제품 상세 정보</p>
+            <div>
+              <span v-html="markdownToHtml" />
+            </div>
+          </div>
         </div>
-        <!--Grid column-->
       </div>
-      <!--Grid row-->
-
-      <!--Grid row-->
-      <div class="row">
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-12 mb-4">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg"
-            class="img-fluid"
-            alt=""
-            loading="lazy"
-          />
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg"
-            class="img-fluid"
-            alt=""
-            loading="lazy"
-          />
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg"
-            class="img-fluid"
-            alt=""
-            loading="lazy"
-          />
-        </div>
-        <!--Grid column-->
-      </div>
-      <!--Grid row-->
     </div>
   </main>
 </template>
@@ -224,6 +184,7 @@
 import ItemCarousel from '@/components/ItemCarousel.vue'
 import { mapState } from 'vuex'
 import _uniqBy from 'lodash/uniqBy'
+import { marked } from 'marked'
 
 export default {
   name: 'ItemView',
@@ -243,6 +204,9 @@ export default {
       }
       return totalPrice
     },
+    markdownToHtml() {
+      return marked(this.item.description)
+    },
   },
   data() {
     return {
@@ -255,12 +219,14 @@ export default {
       const itemId = Number(this.$route.params.id)
       const basePrice = this.item.basePrice
       const itemName = this.item.name
+      const thumbnail = this.item.thumbnail
       const selected = {
         itemId,
         itemOption,
         orderCount: 1,
         basePrice,
         itemName,
+        thumbnail,
       }
       const original = _uniqBy(this.selectedOptions, 'itemOption.id')
       this.selectedOptions.push(selected)
@@ -435,7 +401,7 @@ select {
 
 .add-cart-layer {
   position: absolute;
-  bottom: 40px;
+  top: 40px;
   right: 0;
   background-color: #383838;
   border-radius: 1rem;
