@@ -1,14 +1,13 @@
 <template>
-  <RouterLink :to="`items/${item.id}`" class="item-wrapper">
+  <a class="item-wrapper" @click="handleRoute()">
     <div class="item">
-      <div class="item-image">
-        <img
-          src="https://gabiaoffice.hiworks.com/gabia.com/common/profile/me"
-          alt="아이템 이미지"
-          loading="lazy"
-        />
+      <div class="item-image position-relative">
+        <span class="notify-badge" v-if="isReserved(item.itemStatus)">{{
+          $filters.changeKoreanItemStatus(item.itemStatus)
+        }}</span>
+        <img :src="item.thumbnail" alt="아이템 이미지" loading="lazy" />
       </div>
-      <p class="item-title">${{ item.name }}</p>
+      <p class="item-title">{{ item.name }}</p>
       <div class="item-sale-info">
         <div aria-hidden="true" class="item-category">
           <div aria-hidden="true" class="item-category__icon">
@@ -26,7 +25,7 @@
         </div>
       </div>
     </div>
-  </RouterLink>
+  </a>
 </template>
 
 <script>
@@ -36,6 +35,20 @@ export default {
     item: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  methods: {
+    isReserved(itemStatus) {
+      if (itemStatus === 'RESERVED') {
+        return true
+      }
+    },
+    handleRoute() {
+      if (this.item.itemStatus === 'RESERVED') {
+        alert('예약 상품입니다.')
+        return
+      }
+      this.$router.push(`items/${this.item.id}`)
     },
   },
 }
@@ -120,5 +133,16 @@ export default {
       }
     }
   }
+}
+.notify-badge {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background: rgb(241, 223, 223);
+  text-align: center;
+  border-radius: 30px 30px 30px 30px;
+  color: $gray-700;
+  padding: 5px 10px;
+  font-size: 0.8rem;
 }
 </style>
