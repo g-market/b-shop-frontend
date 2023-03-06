@@ -1,6 +1,7 @@
 import store from '@/store'
 import axios from 'axios'
 import { reissueAccessToken } from '@/api/authApi'
+import router from '@/routes'
 
 axios.defaults.withCredentials = true
 const TOKEN_EXPIRED_MESSAGE = '토큰이 만료됐습니다.'
@@ -34,6 +35,7 @@ export function setInterceptors(instance) {
           } else {
             store.commit('member/logout')
             alert('권한이 없습니다. 다시 로그인 해주세요')
+            await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
           }
         } catch (error2) {
           store.commit('member/logout')
