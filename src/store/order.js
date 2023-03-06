@@ -29,10 +29,12 @@ export default {
       commit('setOrderInfoResponse', data)
       return data
     },
-    async FETCH_ORDERS({ commit }, dateParam) {
-      const { data } = await fetchOrders(dateParam)
-      console.log(data)
-      commit('setOrders', data)
+    async FETCH_ORDERS({ commit }, searchParams) {
+      const { data } = await fetchOrders(
+        searchParams.orderSearchConditions,
+        searchParams.pageable,
+      )
+      commit('setOrders', data.content)
       return data
     },
   },
