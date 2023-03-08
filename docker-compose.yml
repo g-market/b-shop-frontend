@@ -1,0 +1,14 @@
+# docker-compose up -d
+# docker-compose down -v
+version: "3.8"
+services:
+  b-shop-front:
+    image: mentoring-gitlab.gabia.com:5050/mentee/mentee_2023.01/team/g-market/gabia-b-shop-frontend:latest
+    ports:
+      - "80:80"
+    networks:
+      - b-shop-network
+
+networks:
+  b-shop-network:
+    external: true
