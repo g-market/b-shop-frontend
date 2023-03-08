@@ -1,0 +1,28 @@
+stages:
+  - package
+  - deploy
+
+variables:
+  IMAGE_NAME: mentoring-gitlab.gabia.com:5050/mentee/mentee_2023.01/team/g-market/gabia-b-shop-frontend
+
+.push_rules:
+  rules:
+    - if : '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "develop"'
+
+package:
+  rules:
+    - !reference [ .push_rules, rules ]
+  stage: package
+  image: docker:latest
+  services:
+    - name: docker:dind
+  before_script:
+    - echo "$ENV" > .env
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker pull $IMAGE_NAME:latest || true
+    - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$CI_COMMIT_SHA --tag $IMAGE_NAME:latest .
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+    - docker push $IMAGE_NAME:latest
+  after_script:
+    - docker logout
