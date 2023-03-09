@@ -12,9 +12,6 @@
               :src="this.profileImageUrl"
               alt=""
             />
-            <div class="small font-italic text-muted mb-4">
-              JPG or PNG no larger than 5 MB
-            </div>
             <div class="new-profile d-flex align-items-center mt-5 w-auto">
               <label class="custom-file-label" for="customFile"
                 ><mdicon name="face-man-profile" class="d-flex" />
@@ -27,6 +24,15 @@
                 type="file"
                 @change="handleProfileChange"
               />
+            </div>
+            <div class="small font-italic text-muted mt-2 mb-4">
+              이미지 최대 크기 2 MB
+            </div>
+            <div
+              class="btn btn-secondary btn-sm"
+              @click="handleDefaultProfileImage"
+            >
+              기본 이미지로 변경
             </div>
           </div>
         </div>
@@ -113,6 +119,10 @@ export default {
   },
   methods: {
     async submitForm() {
+      if (!this.phoneRule.test(this.phoneNumber)) {
+        alert('휴대전화 번호를 올바르게 기입해주세요.')
+        return
+      }
       const data = {
         phoneNumber: this.phoneNumber,
         profileImageUrl: this.profileImageUrl,
@@ -132,6 +142,14 @@ export default {
         formData,
       )
       this.profileImageUrl = data[0].url
+    },
+    handleDefaultProfileImage() {
+      this.$store.commit(
+        'member/setProfileImageUrl',
+        import.meta.env.VITE_PROFILE_IMAGE_URL,
+      )
+      this.profileImageUrl = import.meta.env.VITE_PROFILE_IMAGE_URL
+      this.$refs.profileRef.value = ''
     },
     checkPhoneNumber($event) {
       const isValid = this.phoneRule.test(this.phoneNumber)
