@@ -1,4 +1,4 @@
-import { createCart, deleteCart, fetchCarts } from '@/api/cartApi'
+import { createCart, deleteCart, deleteCarts, fetchCarts } from '@/api/cartApi'
 
 export default {
   namespaced: true,
@@ -23,6 +23,9 @@ export default {
     },
     async DELETE_CART({ commit }, cartDeleteRequest) {
       await deleteCart(cartDeleteRequest)
+    },
+    async DELETE_CARTS({ commit }, cartDeleteRequestList) {
+      await deleteCarts(cartDeleteRequestList)
     },
   },
 }

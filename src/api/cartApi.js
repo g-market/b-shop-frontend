@@ -9,7 +9,11 @@ function createCart(cartCreateRequest) {
 }
 
 function deleteCart(cartDeleteRequest) {
-  return carts.delete('/carts', { data: cartDeleteRequest })
+  return carts.delete('/cart', { data: cartDeleteRequest })
 }
 
-export { fetchCarts, createCart, deleteCart }
+function deleteCarts(cartDeleteRequestList) {
+  return carts.delete('/carts', { data: cartDeleteRequestList })
+}
+
+export { fetchCarts, createCart, deleteCart, deleteCarts }
