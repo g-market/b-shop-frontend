@@ -125,7 +125,7 @@ const endDateFormat = endDate => {
                         {{ orderInfo.itemName }}
                         <span class="description">
                           {{
-                            this.showCount(orderInfo.itemTotalCount - 1)
+                            showItemTotalCount(orderInfo.itemTotalCount - 1)
                           }}</span
                         >
                       </RouterLink>
@@ -329,7 +329,7 @@ export default {
       this.setPage(data)
       return data
     },
-    showCount(number) {
+    showItemTotalCount(number) {
       if (number === 0) {
         return
       }
