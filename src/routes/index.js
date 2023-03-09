@@ -51,6 +51,10 @@ const router = createRouter({
           path: '/orders/:id',
           component: () => import('@/views/OrderSuccessView.vue'),
         },
+        {
+          path: '/accessToken',
+          component: () => import('@/views/AccessTokenView.vue'),
+        },
       ],
     },
     {
