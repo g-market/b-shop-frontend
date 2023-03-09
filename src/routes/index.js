@@ -40,6 +40,7 @@ const router = createRouter({
         },
         {
           path: '/orders',
+          name: 'orders',
           component: () => import('@/views/OrderView.vue'),
         },
         {
@@ -62,7 +63,7 @@ const router = createRouter({
     },
     {
       path: '/home',
-      name: 'home',
+      name: 'test',
       component: () => import('@/views/HomeView.vue'),
     },
   ],
