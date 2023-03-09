@@ -123,6 +123,9 @@ export default {
         'order/CREATE_ORDER',
         orderItemList,
       )
+      if (this.$route.query.fromCart === 'true') {
+        await this.$store.dispatch('cart/DELETE_CARTS', orderItemList)
+      }
       alert('주문이 정상적으로 진행되었습니다.')
       this.$router.push(`/orders/${data.id}`)
     },
