@@ -46,9 +46,7 @@
                     v-for="itemOption in item.itemOptionDtoList"
                     :key="itemOption.id"
                     :value="toString(itemOption)"
-                    :class="{
-                      disabled: isZeroStockQuantity(itemOption.stockQuantity),
-                    }"
+                    :disabled="isZeroStockQuantity(itemOption.stockQuantity)"
                   >
                     <template
                       v-if="isZeroStockQuantity(itemOption.stockQuantity)"
