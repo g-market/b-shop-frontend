@@ -137,6 +137,7 @@ export default {
       for (const file of event.target.files) {
         formData.append('fileList', file)
       }
+      console.log(event.target.files[0])
       const data = await this.$store.dispatch(
         'member/UPDATE_PROFILE_IMAGE_URL',
         formData,

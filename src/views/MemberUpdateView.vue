@@ -137,6 +137,7 @@ export default {
     async handleProfileChange(event) {
       this.fileName = event.target.files[0].name
       const formData = new FormData()
+      console.log(event.target.files[0])
       for (const file of event.target.files) {
         formData.append('fileList', file)
       }

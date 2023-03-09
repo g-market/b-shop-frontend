@@ -49,9 +49,6 @@ export default {
     setToken(state, token) {
       state.token = token
     },
-    setPhoneNumber(state, phoneNumber) {
-      state.member.phoneNumber = phoneNumber
-    },
     setProfileImageUrl(state, profileImageUrl) {
       state.member.profileImageUrl = profileImageUrl
     },
@@ -89,6 +86,7 @@ export default {
     },
     async UPDATE_PROFILE_IMAGE_URL({ commit }, formData) {
       const { data } = await uploadImage(formData)
+      console.log(data)
       return data
     },
   },
