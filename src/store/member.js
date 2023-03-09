@@ -1,4 +1,4 @@
-import { login, logout, reissueAccessToken } from '@/api/authApi'
+import { login, logout } from '@/api/authApi'
 import { fetchMember, patchMember } from '@/api/memberApi'
 import { uploadImage } from '@/api/imageApi'
 

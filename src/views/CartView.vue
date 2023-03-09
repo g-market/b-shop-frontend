@@ -14,7 +14,7 @@
         >
           <div class="card-header py-3">
             <h6 class="m-0 text-primary">
-              {{ cartMap.get(itemId)[0].name }}
+              {{ cartMap.get(itemId)[0].itemName }}
             </h6>
           </div>
           <div class="card-body">
@@ -40,7 +40,7 @@
                   </div>
                   <div class="option d-flex align-items-center col-3">
                     <span>
-                      {{ cartMapValue.description }}
+                      {{ cartMapValue.itemOptionDescription }}
                       ({{ $filters.formatCurrency(cartMapValue.optionPrice) }})
                     </span>
                   </div>
@@ -167,7 +167,6 @@ export default {
     this.carts.forEach(cart => {
       if (!this.cartMap.has(cart.itemId)) {
         this.cartMap.set(cart.itemId, [])
-        // cartMap.keys() 새로 고침하면 에러가 발생..
         this.itemIds.push(cart.itemId)
       }
       this.cartMap.get(cart.itemId).push(cart)
@@ -251,14 +250,17 @@ export default {
             },
             orderCount: data.orderCount,
             basePrice: data.basePrice,
-            itemName: data.name,
+            itemName: data.itemName,
             thumbnail: data.itemThumbnailUrl,
           }
           selectedOptions.push(selectedOption)
         }
       }
       this.$store.commit('order/setSelectedOptions', selectedOptions)
-      this.$router.push('/orders')
+      this.$router.push({
+        name: 'orders',
+        query: { fromCart: true },
+      })
     },
   },
 }
@@ -270,6 +272,7 @@ export default {
   padding: 0.3rem;
   margin: 0.1rem;
 }
+
 .x-button {
   font-size: 1.4rem;
 }

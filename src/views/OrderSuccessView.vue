@@ -68,7 +68,9 @@
                 </td>
                 <td class="text-center">
                   {{
-                    $filters.changeKoreanOrderStatus(orderInfoResponse.status)
+                    $filters.changeKoreanOrderStatus(
+                      orderInfoResponse.orderStatus,
+                    )
                   }}
                 </td>
                 <td class="">
@@ -88,36 +90,36 @@
               </tr>
               <tr>
                 <td colspan="3" class="text-end pb-0">
-                  <div class="text-uppercase small fw-700 text-muted">
+                  <div class="text-uppercase small fw-700 text-muted me-4">
                     상품금액:
                   </div>
                 </td>
                 <td class="text-end pb-0">
-                  <div class="h5 mb-0 fw-700">
+                  <div class="h5 mb-0 fw-700 me-4">
                     {{ $filters.formatCurrency(orderInfoResponse.totalPrice) }}
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="3" class="text-end pb-0">
-                  <div class="text-uppercase small fw-700 text-muted">
+                  <div class="text-uppercase small fw-700 text-muted me-4">
                     배송비:
                   </div>
                 </td>
                 <td class="text-end pb-0">
-                  <div class="h5 mb-0 fw-700">
+                  <div class="h5 mb-0 fw-700 me-4">
                     {{ $filters.formatCurrency(deliveryPrice) }}
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colspan="3" class="text-end pb-0">
-                  <div class="text-uppercase small fw-700 text-muted">
+                  <div class="text-uppercase small fw-700 text-muted me-4">
                     총 결제 금액:
                   </div>
                 </td>
                 <td class="text-end pb-0">
-                  <div class="h5 mb-0 fw-700 text-primary">
+                  <div class="h5 mb-0 fw-700 text-primary me-4">
                     {{
                       $filters.formatCurrency(
                         orderInfoResponse.totalPrice + deliveryPrice,
@@ -168,7 +170,6 @@ export default {
   },
   async created() {
     this.$store.dispatch('order/FETCH_ORDER', this.$route.params.id)
-    console.log(this.orderInfoResponse)
   },
   computed: {
     ...mapState('order', ['orderInfoResponse']),

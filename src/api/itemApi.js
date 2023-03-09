@@ -27,7 +27,7 @@ function fetchItem(itemId) {
 
 // SearchComponent Year Category
 function fetchYears() {
-  return items.get('/years')
+  return items.get('/item-years')
 }
 
 export { fetchItems, fetchItem, fetchYears }

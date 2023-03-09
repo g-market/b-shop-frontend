@@ -48,7 +48,7 @@ export default {
         alert('예약 상품입니다.')
         return
       }
-      this.$router.push(`items/${this.item.id}`)
+      this.$router.push(`items/${this.item.itemId}`)
     },
   },
 }
