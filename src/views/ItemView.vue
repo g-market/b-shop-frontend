@@ -17,7 +17,7 @@
             </div>
 
             <!--Item Simple Info-->
-            <p class="item-title mb-4">${{ item.name }}</p>
+            <p class="item-title mb-4">{{ item.name }}</p>
 
             <div class="item-sale-info">
               <div aria-hidden="true" class="item-category">
