@@ -46,9 +46,20 @@
                     v-for="itemOption in item.itemOptionDtoList"
                     :key="itemOption.id"
                     :value="toString(itemOption)"
+                    :class="{
+                      disabled: isZeroStockQuantity(itemOption.stockQuantity),
+                    }"
                   >
-                    {{ itemOption.description }}(추가 가격:
-                    {{ $filters.formatCurrency(itemOption.optionPrice) }})
+                    <template
+                      v-if="isZeroStockQuantity(itemOption.stockQuantity)"
+                    >
+                      [품절] {{ itemOption.description }}(추가 가격:
+                      {{ $filters.formatCurrency(itemOption.optionPrice) }})
+                    </template>
+                    <template v-else>
+                      {{ itemOption.description }}(추가 가격:
+                      {{ $filters.formatCurrency(itemOption.optionPrice) }})
+                    </template>
                   </option>
                 </select>
               </div>
@@ -290,6 +301,11 @@ export default {
       this.selectedOptions = this.selectedOptions.filter(
         element => element.itemOption.id !== target.itemOption.id,
       )
+    },
+    isZeroStockQuantity(stockQuantity) {
+      if (stockQuantity === 0) {
+        return true
+      }
     },
   },
 }
