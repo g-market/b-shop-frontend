@@ -138,10 +138,11 @@ export default {
       this.$router.push('/')
     },
     async logout() {
-      alert('로그아웃 하시겠습니까?')
-      localStorage.removeItem('vuex')
-      await this.$store.dispatch('member/LOGOUT')
-      location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
+      if (confirm('로그아웃 하시겠습니까?')) {
+        localStorage.removeItem('vuex')
+        await this.$store.dispatch('member/LOGOUT')
+        location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
+      }
     },
     routeMemberUpdate() {
       this.isMemberDetailSelected = !this.isMemberDetailSelected

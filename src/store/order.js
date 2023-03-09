@@ -35,6 +35,7 @@ export default {
         searchParams.pageable,
       )
       commit('setOrders', data.content)
+      console.log(data.content)
       return data
     },
   },
