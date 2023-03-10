@@ -58,10 +58,10 @@
               </div>
             </div>
             <div class="bottom-menu">
-              <a href="/me" @click="routeMemberUpdate">
+              <RouterLink to="/me" @click="routeMemberUpdate">
                 <mdicon name="pencil" />
                 회원 정보 수정
-              </a>
+              </RouterLink>
               <a @click="logout">
                 <mdicon name="logout" />
                 로그아웃

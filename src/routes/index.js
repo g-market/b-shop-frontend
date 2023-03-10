@@ -1,10 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeLayout from '@/views/layout/HomeLayout.vue'
 import store from '@/store/index'
+import { reissueAccessToken } from '@/api/authApi'
+import { fetchMember } from '@/api/memberApi'
 
 const authCheck = async function (to, from, next) {
   if (store.state.member.token === '') {
-    location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
+    try {
+      const { data } = await reissueAccessToken()
+      store.commit('member/setToken', data.accessToken)
+      const response = await fetchMember()
+      store.commit('member/setMember', response.data)
+    } catch (error) {
+      store.commit('member/logout')
+      location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
+    }
   }
   next()
 }

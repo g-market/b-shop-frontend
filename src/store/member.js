@@ -42,9 +42,11 @@ export default {
     setMember(state, data) {
       state.member.id = data.id
       state.member.email = data.email
+      state.member.phoneNumber = data.phoneNumber
       state.member.name = data.name
-      state.member.phoneNumber =
-        data.phoneNumber == null ? '' : state.member.phoneNumber
+      state.member.role = data.role
+      state.member.grade = data.grade
+      state.member.profileImageUrl = data.profileImageUrl
     },
     setToken(state, token) {
       state.token = token
