@@ -4,6 +4,7 @@ import { reissueAccessToken } from '@/api/authApi'
 import router from '@/routes'
 
 axios.defaults.withCredentials = true
+const TOKEN_EXPIRED_MESSAGE = '토큰이 만료됐습니다.'
 
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
@@ -23,21 +24,27 @@ export function setInterceptors(instance) {
     async error => {
       const originalRequest = error.config
       if (error.response.status === 401) {
+        const message = error.response.data.message
         try {
-          const { data } = await reissueAccessToken()
-          store.commit('member/setToken', data.accessToken)
-          originalRequest.headers.Authorization =
-            'Bearer ' + store.state.member.token
-          return instance(originalRequest)
+          if (message === TOKEN_EXPIRED_MESSAGE) {
+            const { data } = await reissueAccessToken()
+            store.commit('member/setToken', data.accessToken)
+            originalRequest.headers.Authorization =
+              'Bearer ' + store.state.member.token
+            return instance(originalRequest)
+          } else {
+            store.commit('member/logout')
+            await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
+            alert('권한이 없습니다. 다시 로그인 해주세요')
+          }
         } catch (error2) {
           store.commit('member/logout')
-          await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
+          alert('권한이 없습니다. 다시 로그인 해주세요')
           return Promise.reject(error2)
         }
       } else {
         if (error.response.data.message) {
           alert(error.response.data.message)
-          await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
         }
       }
       return Promise.reject(error)
