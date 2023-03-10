@@ -6,7 +6,6 @@ const startDateFormat = startDate => {
   const day = startDate.getDate()
   const month = startDate.getMonth() + 1
   const year = startDate.getFullYear()
-
   return `${year}-${month}-${day}`
 }
 
@@ -101,7 +100,7 @@ const endDateFormat = endDate => {
                     {{ orderInfo.orderId }}
                   </RouterLink>
                 </td>
-                <td>
+                <td class="item-info">
                   <div class="item-wrapper d-flex">
                     <div class="item-thumbnail w-25 h-25">
                       <RouterLink
@@ -480,5 +479,9 @@ export default {
 .description {
   font-size: 0.8rem;
   color: $gray-500;
+}
+
+.item-info {
+  width: 60%;
 }
 </style>
