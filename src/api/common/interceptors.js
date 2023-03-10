@@ -38,7 +38,6 @@ export function setInterceptors(instance) {
           }
         } catch (error2) {
           store.commit('member/logout')
-          alert('권한이 없습니다. 다시 로그인 해주세요')
           return Promise.reject(error2)
         }
       } else {
