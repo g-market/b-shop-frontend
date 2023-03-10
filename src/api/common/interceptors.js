@@ -34,13 +34,11 @@ export function setInterceptors(instance) {
             return instance(originalRequest)
           } else {
             store.commit('member/logout')
-            await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
             alert('권한이 없습니다. 다시 로그인 해주세요')
           }
         } catch (error2) {
           store.commit('member/logout')
           alert('권한이 없습니다. 다시 로그인 해주세요')
-          await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
           return Promise.reject(error2)
         }
       } else {
