@@ -32,9 +32,6 @@ export function setInterceptors(instance) {
             originalRequest.headers.Authorization =
               'Bearer ' + store.state.member.token
             return instance(originalRequest)
-          } else {
-            store.commit('member/logout')
-            alert('권한이 없습니다. 다시 로그인 해주세요')
           }
         } catch (error2) {
           store.commit('member/logout')
