@@ -108,10 +108,10 @@ export default {
       store.state.member.member.phoneNumber == null ||
       store.state.member.member.phoneNumber === ''
     ) {
-      console.log('beforeRouterEnter')
       next()
+    } else {
+      next('/')
     }
-    next('/')
   },
   beforeRouteLeave(to, from, next) {
     if (
@@ -121,8 +121,9 @@ export default {
       console.log('beforeRouterLeave')
       alert('휴대 전화 번호를 기입해주세요.')
       next(false)
+    } else {
+      next()
     }
-    next()
   },
   name: 'MemberRegisterView',
   data() {

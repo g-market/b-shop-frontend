@@ -16,15 +16,15 @@ const authCheck = async function (to, from, next) {
         store.state.member.member.phoneNumber == null ||
         store.state.member.member.phoneNumber === ''
       ) {
-        console.log('register로 이동해야되지 않나?')
-        await router.push('/register')
+        next('/register')
       }
     } catch (error) {
       store.commit('member/logout')
       location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
     }
+  } else {
+    next()
   }
-  next()
 }
 
 const router = createRouter({
