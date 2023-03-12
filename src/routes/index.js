@@ -21,9 +21,8 @@ const authCheck = async function (to, from, next) {
       store.commit('member/logout')
       location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
     }
-  } else {
-    next()
   }
+  next()
 }
 
 const router = createRouter({
