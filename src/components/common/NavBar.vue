@@ -147,7 +147,6 @@ export default {
     routeMemberUpdate() {
       this.isMemberDetailSelected = !this.isMemberDetailSelected
       this.isShowMemberDetail = false
-      this.$router.push('/me')
     },
   },
 }

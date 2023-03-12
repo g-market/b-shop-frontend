@@ -1,7 +1,7 @@
 <template>
-  <RouterLink to="/" class="logo" @click="initSearchParams()"
-    ><span>B </span>SHOP</RouterLink
-  >
+  <RouterLink to="/" class="logo" @click="initSearchParams">
+    <span>B </span>SHOP
+  </RouterLink>
 </template>
 
 <script>
@@ -18,7 +18,6 @@ export default {
         itemName: null,
         page: 0,
       })
-      this.$router.push('/')
     },
   },
 }
