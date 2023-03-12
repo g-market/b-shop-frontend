@@ -11,12 +11,19 @@ const authCheck = async function (to, from, next) {
       store.commit('member/setToken', data.accessToken)
       const response = await fetchMember()
       store.commit('member/setMember', response.data)
+      await _isRegistered()
     } catch (error) {
       store.commit('member/logout')
       location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
     }
   }
   next()
+}
+
+async function _isRegistered() {
+  if (store.state.member.member.phoneNumber == null) {
+    await router.push('/register')
+  }
 }
 
 const router = createRouter({
