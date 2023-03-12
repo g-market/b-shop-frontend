@@ -11,6 +11,7 @@ const authCheck = async function (to, from, next) {
       store.commit('member/setToken', data.accessToken)
       const response = await fetchMember()
       store.commit('member/setMember', response.data)
+      console.log(store.state.member.member)
       if (
         store.state.member.member.phoneNumber == null ||
         store.state.member.member.phoneNumber === ''
