@@ -25,16 +25,6 @@ const authCheck = async function (to, from, next) {
   next()
 }
 
-const registerCheck = async function (to, from, next) {
-  if (
-    store.state.member.member.phoneNumber == null ||
-    store.state.member.member.phoneNumber === ''
-  ) {
-    next()
-  }
-  await router.push('/')
-}
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -50,7 +40,6 @@ const router = createRouter({
         },
         {
           path: '/register',
-          beforeEnter: registerCheck,
           component: () => import('@/views/MemberRegisterView.vue'),
         },
         {
