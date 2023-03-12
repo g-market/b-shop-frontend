@@ -37,7 +37,7 @@
                 v-for="orderItem in orderInfoResponse.orderItemList"
                 :key="orderItem.itemOptionId"
               >
-                <td>
+                <td class="item-info">
                   <div class="item-wrapper d-flex">
                     <div class="item-thumbnail w-25 h-25">
                       <RouterLink
@@ -183,5 +183,8 @@ export default {
 .description {
   font-size: 0.8rem;
   color: $gray-500;
+}
+.item-info {
+  width: 60%;
 }
 </style>
