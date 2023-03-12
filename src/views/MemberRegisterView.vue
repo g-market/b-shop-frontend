@@ -101,7 +101,6 @@
 <script>
 import { mapState } from 'vuex'
 import store from '@/store'
-import router from '@/routes'
 
 export default {
   beforeRouteEnter(to, from, next) {
@@ -109,15 +108,17 @@ export default {
       store.state.member.member.phoneNumber == null ||
       store.state.member.member.phoneNumber === ''
     ) {
+      console.log('beforeRouterEnter')
       next()
     }
-    router.push('/')
+    next('/')
   },
   beforeRouteLeave(to, from, next) {
     if (
       store.state.member.member.phoneNumber == null ||
       store.state.member.member.phoneNumber === ''
     ) {
+      console.log('beforeRouterLeave')
       alert('휴대 전화 번호를 기입해주세요.')
       next(false)
     }
