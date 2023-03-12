@@ -1,6 +1,6 @@
 <template>
   <main aria-label="회원가입 페이지" class="container-xl px-5 mt-4">
-    <h1 class="h3 mb-4 text-muted">회원가입</h1>
+    <h1 class="h3 mb-4 text-muted">회원 가입</h1>
 
     <div class="row">
       <div class="col-4">
@@ -13,8 +13,8 @@
               alt=""
             />
             <div class="new-profile d-flex align-items-center mt-5 w-auto">
-              <label class="custom-file-label" for="customFile"
-                ><mdicon name="face-man-profile" class="d-flex" />
+              <label class="custom-file-label" for="customFile">
+                <mdicon name="face-man-profile" class="d-flex" />
               </label>
               <input
                 class="ms-3 form-control"
@@ -45,9 +45,9 @@
             <form @submit.prevent="submitForm">
               <!-- Form Group (username)-->
               <div class="mb-3 d-flex align-items-center">
-                <label class="small me-4" for="inputUsername"
-                  ><mdicon name="account" class="d-flex"
-                /></label>
+                <label class="small me-4" for="inputUsername">
+                  <mdicon name="account" class="d-flex" />
+                </label>
                 <input
                   class="form-control"
                   type="text"
@@ -57,9 +57,9 @@
                 />
               </div>
               <div class="mb-3 d-flex align-items-center">
-                <label class="small me-4" for="inputUsername"
-                  ><mdicon name="email-multiple-outline" class="d-flex"
-                /></label>
+                <label class="small me-4" for="inputUsername">
+                  <mdicon name="email-multiple-outline" class="d-flex" />
+                </label>
                 <input
                   class="form-control"
                   type="text"
@@ -69,9 +69,9 @@
                 />
               </div>
               <div class="mb-3 d-flex align-items-center">
-                <label class="small me-4" for="inputUsername"
-                  ><mdicon name="cellphone-sound" class="d-flex"
-                /></label>
+                <label class="small me-4" for="inputUsername">
+                  <mdicon name="cellphone-sound" class="d-flex" />
+                </label>
                 <input
                   class="form-control"
                   type="text"
@@ -100,8 +100,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import store from '@/store'
 
 export default {
+  beforeRouteLeave(to, from, next) {
+    if (store.state.member.member.phoneNumber == null) {
+      next(false)
+    }
+  },
   name: 'MemberRegisterView',
   data() {
     return {
