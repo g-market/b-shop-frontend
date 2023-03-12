@@ -11,7 +11,10 @@ const authCheck = async function (to, from, next) {
       store.commit('member/setToken', data.accessToken)
       const response = await fetchMember()
       store.commit('member/setMember', response.data)
-      if (store.state.member.member.phoneNumber == null) {
+      if (
+        store.state.member.member.phoneNumber == null ||
+        store.state.member.member.phoneNumber === ''
+      ) {
         await router.push('/register')
       }
     } catch (error) {
@@ -23,7 +26,10 @@ const authCheck = async function (to, from, next) {
 }
 
 const registerCheck = async function (to, from, next) {
-  if (store.state.member.member.phoneNumber == null) {
+  if (
+    store.state.member.member.phoneNumber == null ||
+    store.state.member.member.phoneNumber === ''
+  ) {
     next()
   }
   await router.push('/')
