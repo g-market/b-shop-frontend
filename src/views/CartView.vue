@@ -171,9 +171,6 @@ export default {
       }
       this.cartMap.get(cart.itemId).push(cart)
     })
-    for (const val of this.cartMap.values()) {
-      console.log(val)
-    }
   },
   computed: {
     ...mapState('cart', ['carts']),

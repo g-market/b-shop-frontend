@@ -118,7 +118,6 @@ export default {
       store.state.member.member.phoneNumber == null ||
       store.state.member.member.phoneNumber === ''
     ) {
-      console.log('beforeRouterLeave')
       alert('휴대 전화 번호를 기입해주세요.')
       next(false)
     } else {
@@ -160,7 +159,6 @@ export default {
       for (const file of event.target.files) {
         formData.append('fileList', file)
       }
-      console.log(event.target.files[0])
       const data = await this.$store.dispatch(
         'member/UPDATE_PROFILE_IMAGE_URL',
         formData,
