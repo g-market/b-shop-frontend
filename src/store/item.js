@@ -17,20 +17,27 @@ export default {
   },
   actions: {
     async FETCH_ITEMS({ commit }, searchParam) {
-      const { data } = await fetchItems(
-        searchParam.year,
-        searchParam.category,
-        searchParam.itemName,
-        searchParam.page,
-      )
-      commit('fetchItems', data.content)
-      return data
+      try {
+        const { data } = await fetchItems(
+          searchParam.year,
+          searchParam.category,
+          searchParam.itemName,
+          searchParam.page,
+        )
+        commit('fetchItems', data.content)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
-
     async FETCH_ITEM({ commit }, itemId) {
-      const { data } = await fetchItem(itemId)
-      commit('fetchItem', data)
-      return data
+      try {
+        const { data } = await fetchItem(itemId)
+        commit('fetchItem', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }

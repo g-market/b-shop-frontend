@@ -21,22 +21,33 @@ export default {
   },
   actions: {
     async CREATE_ORDER({ commit }, orderItemList) {
-      const { data } = await createOrder(orderItemList)
-      return data
+      try {
+        const { data } = await createOrder(orderItemList)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async FETCH_ORDER({ commit }, orderId) {
-      const { data } = await fetchOrder(orderId)
-      commit('setOrderInfoResponse', data)
-      return data
+      try {
+        const { data } = await fetchOrder(orderId)
+        commit('setOrderInfoResponse', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async FETCH_ORDERS({ commit }, searchParams) {
-      const { data } = await fetchOrders(
-        searchParams.orderSearchConditions,
-        searchParams.pageable,
-      )
-      commit('setOrders', data.content)
-      console.log(data.content)
-      return data
+      try {
+        const { data } = await fetchOrders(
+          searchParams.orderSearchConditions,
+          searchParams.pageable,
+        )
+        commit('setOrders', data.content)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }

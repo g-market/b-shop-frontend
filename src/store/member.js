@@ -62,24 +62,34 @@ export default {
   },
   actions: {
     async LOGIN({ commit }, authCode) {
-      const { data } = await login(authCode)
-      commit('login', data)
-      return data
+      try {
+        const { data } = await login(authCode)
+        commit('login', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async LOGOUT({ commit }) {
-      await logout()
-      commit('logout')
+      try {
+        await logout()
+        commit('logout')
+      } catch (error) {
+        console.log(error)
+      }
     },
     async FETCH_MEMBER({ commit }) {
-      const { data } = await fetchMember()
-      console.log(data)
-      commit('setMember', data)
-      return data
+      try {
+        const { data } = await fetchMember()
+        commit('setMember', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async UPDATE_MEMBER({ commit }, memberUpdateRequest) {
       try {
         const { data } = await patchMember(memberUpdateRequest)
-        console.log(memberUpdateRequest)
         commit('setProfile', memberUpdateRequest)
         return data
       } catch (error) {
@@ -87,9 +97,12 @@ export default {
       }
     },
     async UPDATE_PROFILE_IMAGE_URL({ commit }, formData) {
-      const { data } = await uploadImage(formData)
-      console.log(data)
-      return data
+      try {
+        const { data } = await uploadImage(formData)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }

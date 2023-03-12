@@ -50,14 +50,22 @@ export default {
   },
   actions: {
     async FETCH_YEARS({ commit }) {
-      const { data } = await fetchYears()
-      commit('initYears', data)
-      return data
+      try {
+        const { data } = await fetchYears()
+        commit('initYears', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async FETCH_CATEGORIES({ commit }) {
-      const { data } = await fetchCategories()
-      commit('initCategories', data)
-      return data
+      try {
+        const { data } = await fetchCategories()
+        commit('initCategories', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }

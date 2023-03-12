@@ -13,19 +13,35 @@ export default {
   },
   actions: {
     async FETCH_CARTS({ commit }) {
-      const { data } = await fetchCarts()
-      commit('fetchCarts', data)
-      return data
+      try {
+        const { data } = await fetchCarts()
+        commit('fetchCarts', data)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async CREATE_CART({ commit }, cartCreateRequest) {
-      const { data } = await createCart(cartCreateRequest)
-      return data
+      try {
+        const { data } = await createCart(cartCreateRequest)
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     },
     async DELETE_CART({ commit }, cartDeleteRequest) {
-      await deleteCart(cartDeleteRequest)
+      try {
+        await deleteCart(cartDeleteRequest)
+      } catch (error) {
+        console.log(error)
+      }
     },
     async DELETE_CARTS({ commit }, cartDeleteRequestList) {
-      await deleteCarts(cartDeleteRequestList)
+      try {
+        await deleteCarts(cartDeleteRequestList)
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }
