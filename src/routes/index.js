@@ -11,7 +11,9 @@ const authCheck = async function (to, from, next) {
       store.commit('member/setToken', data.accessToken)
       const response = await fetchMember()
       store.commit('member/setMember', response.data)
-      await _isRegistered()
+      if (store.state.member.member.phoneNumber == null) {
+        await router.push('/register')
+      }
     } catch (error) {
       store.commit('member/logout')
       location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
@@ -20,10 +22,11 @@ const authCheck = async function (to, from, next) {
   next()
 }
 
-async function _isRegistered() {
+const registerCheck = async function (to, from, next) {
   if (store.state.member.member.phoneNumber == null) {
-    await router.push('/register')
+    next()
   }
+  await router.push('/')
 }
 
 const router = createRouter({
@@ -41,6 +44,7 @@ const router = createRouter({
         },
         {
           path: '/register',
+          beforeEnter: registerCheck,
           component: () => import('@/views/MemberRegisterView.vue'),
         },
         {

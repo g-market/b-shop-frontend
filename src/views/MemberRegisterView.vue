@@ -105,8 +105,10 @@ import store from '@/store'
 export default {
   beforeRouteLeave(to, from, next) {
     if (store.state.member.member.phoneNumber == null) {
+      alert('휴대 전화 번호를 기입해주세요.')
       next(false)
     }
+    next()
   },
   name: 'MemberRegisterView',
   data() {
