@@ -17,7 +17,7 @@
         :class="isFirst(index) ? 'carousel-item active' : 'carousel-item'"
       >
         <img
-          :src="itemImage.url"
+          :src="itemImage.imageUrl"
           class="img-fluid item-image"
           alt="아이템 이미지"
           loading="lazy"
