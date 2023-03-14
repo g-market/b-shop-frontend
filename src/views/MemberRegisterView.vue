@@ -12,7 +12,7 @@
               :src="this.profileImageUrl"
               alt=""
             />
-            <div class="new-profile d-flex align-items-center mt-5 w-auto">
+            <div class="new-profile d-flex align-items-center mt-3 w-auto">
               <label class="custom-file-label" for="customFile">
                 <mdicon name="face-man-profile" class="d-flex" />
               </label>
