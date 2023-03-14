@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="card">
+    <div class="card m-4">
       {{ token }}
     </div>
   </main>

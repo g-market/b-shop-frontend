@@ -12,9 +12,6 @@ import AppFooter from '@/components/common/AppFooter.vue'
 <script>
 export default {
   name: 'HomeLayout',
-  created() {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-  },
 }
 </script>
 
