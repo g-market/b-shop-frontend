@@ -443,7 +443,6 @@ export default {
         first: data.first,
         last: data.last,
       }
-      console.log(this.page)
     },
     async cancelOrder(orderId) {
       const isConfirm = confirm(
