@@ -198,25 +198,22 @@ const endDateFormat = endDate => {
           >
             Prev
           </button>
-          <div
-            class="d-inline btn-wrapper"
-            v-for="pageNumber in getPaginationBarNumbers"
-            :key="pageNumber"
+          <button
+            v-for="currPage in page.totalPages"
+            :key="currPage"
+            :value="currPage"
+            role="radio"
+            aria-checked="true"
+            :class="
+              isSelectedPage(currPage)
+                ? 'page-item page-link active'
+                : 'page-item page-link'
+            "
+            @click="changeSelectedPage(currPage)"
+            v-show="Math.abs(this.page.number + 1 - currPage) < 7"
           >
-            <button
-              :value="pageNumber + 1"
-              role="radio"
-              aria-checked="true"
-              :class="
-                isSelectedPage(pageNumber + 1)
-                  ? 'page-item page-link active'
-                  : 'page-item page-link'
-              "
-              @click="changeSelectedPage(pageNumber + 1)"
-            >
-              {{ pageNumber + 1 }}
-            </button>
-          </div>
+            {{ currPage }}
+          </button>
           <button
             :class="
               page.last ? 'page-item page-link disabled' : 'page-item page-link'
@@ -265,14 +262,10 @@ export default {
         last: false,
       },
       size: 10,
-      paginationBarNumbers: [],
     }
   },
   computed: {
     ...mapState('order', ['orders']),
-    getPaginationBarNumbers() {
-      return this.paginationBarNumbers
-    },
   },
   methods: {
     isSelected(period) {
@@ -440,7 +433,6 @@ export default {
         searchParams,
       )
       this.setPage(data)
-      this.calcPaginationBarNumbers()
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     },
     setPage(data) {
@@ -465,18 +457,6 @@ export default {
     },
     isAccepted(orderStatus) {
       return orderStatus === 'ACCEPTED'
-    },
-    calcPaginationBarNumbers() {
-      const startNumber = Math.max(0, this.page.number - 7)
-      const endNumber = Math.min(startNumber + 7, this.page.totalPages)
-      let arr = []
-      for (let i = startNumber; i < endNumber; i++) {
-        arr.push(i)
-      }
-      console.log(arr)
-      this.paginationBarNumbers = arr
-      console.log(this.paginationBarNumbers)
-      console.log(this.page)
     },
   },
 }
