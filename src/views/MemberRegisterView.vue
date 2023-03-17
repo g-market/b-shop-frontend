@@ -155,6 +155,7 @@ export default {
         this.$router.push('/')
       } catch (error) {
         alert(error.response.data.message)
+        console.log(error)
       }
     },
     async handleProfileChange(event) {
