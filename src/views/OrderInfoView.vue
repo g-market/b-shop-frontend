@@ -276,6 +276,7 @@ export default {
       for (let i = startNumber; i < endNumber; i++) {
         arr.push(i)
       }
+      console.log(arr)
       return arr
     },
   },
