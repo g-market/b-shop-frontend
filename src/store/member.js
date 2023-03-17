@@ -1,7 +1,6 @@
 import { login, logout } from '@/api/authApi'
 import { fetchMember, patchMember } from '@/api/memberApi'
 import { uploadImage } from '@/api/imageApi'
-import router from '@/routes'
 
 export default {
   namespaced: true,
@@ -34,12 +33,6 @@ export default {
       state.member.role = data.memberResponse.role
       state.member.grade = data.memberResponse.grade
       state.member.profileImageUrl = data.memberResponse.profileImageUrl
-      if (
-        state.member.member.phoneNumber == null ||
-        state.member.member.phoneNumber === ''
-      ) {
-        router.push('/register')
-      }
     },
     logout(state) {
       state.token = ''
