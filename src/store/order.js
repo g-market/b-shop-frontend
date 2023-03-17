@@ -1,4 +1,9 @@
-import { createOrder, fetchOrder, fetchOrders } from '@/api/orderApi'
+import {
+  createOrder,
+  fetchOrder,
+  fetchOrders,
+  cancelOrder,
+} from '@/api/orderApi'
 
 export default {
   namespaced: true,
@@ -45,6 +50,13 @@ export default {
         )
         commit('setOrders', data.content)
         return data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async CANCEL_ORDER({ commit }, orderId) {
+      try {
+        await cancelOrder(orderId)
       } catch (error) {
         console.log(error)
       }

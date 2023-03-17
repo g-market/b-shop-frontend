@@ -84,6 +84,7 @@ const endDateFormat = endDate => {
                 <th scope="col" class="text-center">주문 일자</th>
                 <th scope="col" class="text-center">주문 상태</th>
                 <th scope="col" class="text-center">주문 금액</th>
+                <th scope="col" class="text-center">주문 취소</th>
               </tr>
             </thead>
             <tbody>
@@ -140,6 +141,14 @@ const endDateFormat = endDate => {
                 <td class="text-center">
                   {{ $filters.formatCurrency(orderInfo.totalPrice) }}
                 </td>
+                <td class="text-center">
+                  <button
+                    class="btn cancel-btn col-2"
+                    @click="cancelOrder(orderInfo.orderId)"
+                  >
+                    주문 취소
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -186,19 +195,27 @@ const endDateFormat = endDate => {
             Prev
           </button>
           <button
-            v-for="currPage in page.totalPages"
-            :key="currPage"
-            :value="currPage"
+            v-for="pageNumber in page.totalPages"
+            :key="pageNumber"
+            :value="pageNumber"
             role="radio"
             aria-checked="true"
             :class="
-              isSelectedPage(currPage)
+              isSelectedPage(pageNumber)
                 ? 'page-item page-link active'
                 : 'page-item page-link'
             "
-            @click="changeSelectedPage(currPage)"
+            @click="changeSelectedPage(pageNumber)"
           >
-            {{ currPage }}
+            <span
+              v-if="
+                Math.abs(pageNumber - page.number) < 3 ||
+                pageNumber === page.totalPages - 1 ||
+                pageNumber === 0
+              "
+            >
+              {{ pageNumber }}
+            </span>
           </button>
           <button
             :class="
@@ -430,6 +447,16 @@ export default {
         last: data.last,
       }
     },
+    async cancelOrder(orderId) {
+      const isConfirm = confirm(
+        '주문 취소는 접수 상태에서만 가능합니다. 취소 하시겠습니까?',
+      )
+      if (isConfirm) {
+        await this.$store.dispatch('order/CANCEL_ORDER', orderId)
+      }
+      const data = await this.fetchOrderInfos()
+      this.setPage(data)
+    },
   },
 }
 </script>
@@ -483,5 +510,10 @@ export default {
 
 .item-info {
   width: 60%;
+}
+
+.cancel-btn {
+  background-color: $primary-btn;
+  font-size: 0.9rem;
 }
 </style>

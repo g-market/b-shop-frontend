@@ -17,4 +17,8 @@ function createOrder(orderItemList) {
   return orders.post('/orders', { orderItemDtoList: orderItemList })
 }
 
-export { fetchOrders, fetchOrder, createOrder }
+function cancelOrder(orderId) {
+  return orders.post(`/orders/${orderId}`)
+}
+
+export { fetchOrders, fetchOrder, createOrder, cancelOrder }
