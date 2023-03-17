@@ -198,29 +198,30 @@ const endDateFormat = endDate => {
           >
             Prev
           </button>
-          <button
+          <div
+            class="d-inline btn-wrapper"
             v-for="pageNumber in page.totalPages"
-            :key="pageNumber"
-            :value="pageNumber"
-            role="radio"
-            aria-checked="true"
-            :class="
-              isSelectedPage(pageNumber)
-                ? 'page-item page-link active'
-                : 'page-item page-link'
-            "
-            @click="changeSelectedPage(pageNumber)"
           >
-            <span
-              v-if="
+            <button
+              :key="pageNumber"
+              :value="pageNumber"
+              role="radio"
+              aria-checked="true"
+              :class="
+                isSelectedPage(pageNumber)
+                  ? 'page-item page-link active'
+                  : 'page-item page-link'
+              "
+              @click="changeSelectedPage(pageNumber)"
+              v-show="
                 Math.abs(pageNumber - (page.number + 1)) < 3 ||
                 pageNumber === page.totalPages ||
                 pageNumber === 1
               "
             >
               {{ pageNumber }}
-            </span>
-          </button>
+            </button>
+          </div>
           <button
             :class="
               page.last ? 'page-item page-link disabled' : 'page-item page-link'
