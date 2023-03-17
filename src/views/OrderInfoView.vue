@@ -213,7 +213,7 @@ const endDateFormat = endDate => {
                   : 'page-item page-link'
               "
               @click="changeSelectedPage(pageNumber)"
-              v-show="Math.abs(pageNumber - (page.number + 1)) < 7"
+              v-if="Math.abs(pageNumber - (page.number + 1)) < 5"
             >
               {{ pageNumber }}
             </button>
