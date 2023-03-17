@@ -200,7 +200,7 @@ const endDateFormat = endDate => {
           </button>
           <div
             class="d-inline btn-wrapper"
-            v-for="pageNumber in this.paginationBarNumbers"
+            v-for="pageNumber in getPaginationBarNumbers"
             :key="pageNumber"
           >
             <button
@@ -270,6 +270,9 @@ export default {
   },
   computed: {
     ...mapState('order', ['orders']),
+    getPaginationBarNumbers() {
+      return this.paginationBarNumbers
+    },
   },
   methods: {
     isSelected(period) {
@@ -437,7 +440,7 @@ export default {
         searchParams,
       )
       this.setPage(data)
-      this.getPaginationBarNumbers()
+      this.calcPaginationBarNumbers()
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     },
     setPage(data) {
@@ -463,7 +466,7 @@ export default {
     isAccepted(orderStatus) {
       return orderStatus === 'ACCEPTED'
     },
-    getPaginationBarNumbers() {
+    calcPaginationBarNumbers() {
       const startNumber = Math.max(0, this.page.number - 7)
       const endNumber = Math.min(startNumber + 7, this.page.totalPages)
       let arr = []
@@ -473,6 +476,7 @@ export default {
       console.log(arr)
       this.paginationBarNumbers = arr
       console.log(this.paginationBarNumbers)
+      console.log(this.page)
     },
   },
 }
