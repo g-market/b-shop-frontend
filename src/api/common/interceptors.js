@@ -40,7 +40,7 @@ export function setInterceptors(instance) {
       } else {
         if (error.response.data.message) {
           alert(error.response.data.message)
-          await router.push(import.meta.env.VITE_HIWORKS_LOGIN_PAGE)
+          location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
         }
       }
       return Promise.reject(error)

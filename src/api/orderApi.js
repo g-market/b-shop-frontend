@@ -18,7 +18,7 @@ function createOrder(orderItemList) {
 }
 
 function cancelOrder(orderId) {
-  return orders.post(`/orders/${orderId}`)
+  return orders.delete(`/orders/${orderId}`)
 }
 
 export { fetchOrders, fetchOrder, createOrder, cancelOrder }

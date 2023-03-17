@@ -143,7 +143,7 @@ const endDateFormat = endDate => {
                 </td>
                 <td class="text-center">
                   <button
-                    class="btn cancel-btn col-2"
+                    class="btn cancel-btn"
                     @click="cancelOrder(orderInfo.orderId)"
                   >
                     주문 취소
@@ -195,6 +195,11 @@ const endDateFormat = endDate => {
             Prev
           </button>
           <button
+            v-if="
+              Math.abs(pageNumber - page.number) < 3 ||
+              pageNumber === page.totalPages - 1 ||
+              pageNumber === 0
+            "
             v-for="pageNumber in page.totalPages"
             :key="pageNumber"
             :value="pageNumber"
@@ -207,15 +212,7 @@ const endDateFormat = endDate => {
             "
             @click="changeSelectedPage(pageNumber)"
           >
-            <span
-              v-if="
-                Math.abs(pageNumber - page.number) < 3 ||
-                pageNumber === page.totalPages - 1 ||
-                pageNumber === 0
-              "
-            >
-              {{ pageNumber }}
-            </span>
+            {{ pageNumber }}
           </button>
           <button
             :class="
