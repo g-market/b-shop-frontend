@@ -201,8 +201,8 @@ const endDateFormat = endDate => {
           <div
             class="d-inline btn-wrapper"
             v-for="pageNumber in getPaginationBarNumbers(
-              this.page.number,
-              this.page.totalPages,
+              page.number,
+              page.totalPages,
             )"
             :key="pageNumber"
           >
