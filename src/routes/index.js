@@ -25,12 +25,6 @@ const authCheck = async function (to, from, next) {
       location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
     }
   }
-  if (
-    store.state.member.member.phoneNumber == null ||
-    store.state.member.member.phoneNumber === ''
-  ) {
-    next('/register')
-  }
   next()
 }
 
