@@ -130,9 +130,13 @@ export default {
         phoneNumber: this.phoneNumber,
         profileImageUrl: this.profileImageUrl,
       }
-      await this.$store.dispatch('member/UPDATE_MEMBER', data)
-      alert('회원정보가 변경되었습니다.')
-      this.$router.push('/')
+      try {
+        await this.$store.dispatch('member/UPDATE_MEMBER', data)
+        alert('회원정보가 변경되었습니다.')
+        this.$router.push('/')
+      } catch (error) {
+        alert(error.response.data.message)
+      }
     },
     async handleProfileChange(event) {
       this.fileName = event.target.files[0].name

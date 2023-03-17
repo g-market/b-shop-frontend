@@ -37,10 +37,8 @@ export function setInterceptors(instance) {
           location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
           return Promise.reject(error2)
         }
-      } else {
-        alert(error.response.data.message)
-        return Promise.reject(error)
       }
+      return Promise.reject(error)
     },
   )
   return instance
