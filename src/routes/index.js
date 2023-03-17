@@ -6,6 +6,8 @@ import { fetchMember } from '@/api/memberApi'
 
 const authCheck = async function (to, from, next) {
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  console.log(store.state.member.token)
+  console.log(store.state.member)
   if (store.state.member.token === '') {
     try {
       const { data } = await reissueAccessToken()
