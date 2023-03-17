@@ -200,22 +200,24 @@ const endDateFormat = endDate => {
           </button>
           <div
             class="d-inline btn-wrapper"
-            v-for="pageNumber in page.totalPages"
+            v-for="pageNumber in getPaginationBarNumbers(
+              this.page.number,
+              this.page.totalPages,
+            )"
+            :key="pageNumber"
           >
             <button
-              :key="pageNumber"
-              :value="pageNumber"
+              :value="pageNumber + 1"
               role="radio"
               aria-checked="true"
               :class="
-                isSelectedPage(pageNumber)
+                isSelectedPage(pageNumber + 1)
                   ? 'page-item page-link active'
                   : 'page-item page-link'
               "
-              @click="changeSelectedPage(pageNumber)"
-              v-if="Math.abs(pageNumber - (page.number + 1)) < 5"
+              @click="changeSelectedPage(pageNumber + 1)"
             >
-              {{ pageNumber }}
+              {{ pageNumber + 1 }}
             </button>
           </div>
           <button
@@ -447,6 +449,7 @@ export default {
         first: data.first,
         last: data.last,
       }
+      console.log(this.page)
     },
     async cancelOrder(orderId) {
       const isConfirm = confirm(
@@ -460,6 +463,15 @@ export default {
     },
     isAccepted(orderStatus) {
       return orderStatus === 'ACCEPTED'
+    },
+    getPaginationBarNumbers(currentPageNumber, totalPages) {
+      const startNumber = Math.max(0, currentPageNumber - 5)
+      const endNumber = Math.min(startNumber + 5, totalPages)
+      let arr = []
+      for (let i = startNumber; i < endNumber; i++) {
+        arr.push(i)
+      }
+      return arr
     },
   },
 }
