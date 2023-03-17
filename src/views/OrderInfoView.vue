@@ -143,8 +143,12 @@ const endDateFormat = endDate => {
                 </td>
                 <td class="text-center">
                   <button
-                    class="btn cancel-btn"
                     @click="cancelOrder(orderInfo.orderId)"
+                    :class="
+                      isAccepted(orderInfo.orderStatus)
+                        ? 'btn cancel-btn'
+                        : 'btn cancel-btn disabled'
+                    "
                   >
                     주문 취소
                   </button>
@@ -197,8 +201,8 @@ const endDateFormat = endDate => {
           <button
             v-if="
               Math.abs(pageNumber - page.number) < 3 ||
-              pageNumber === page.totalPages - 1 ||
-              pageNumber === 0
+              pageNumber === page.totalPages ||
+              pageNumber === 1
             "
             v-for="pageNumber in page.totalPages"
             :key="pageNumber"
@@ -453,6 +457,9 @@ export default {
       }
       const data = await this.fetchOrderInfos()
       this.setPage(data)
+    },
+    isAccepted(orderStatus) {
+      return orderStatus === 'ACCEPTED'
     },
   },
 }

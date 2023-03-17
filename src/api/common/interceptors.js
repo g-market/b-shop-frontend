@@ -1,7 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
 import { reissueAccessToken } from '@/api/authApi'
-import router from '@/routes'
 
 axios.defaults.withCredentials = true
 const TOKEN_EXPIRED_MESSAGE = '토큰이 만료됐습니다.'
@@ -35,6 +34,7 @@ export function setInterceptors(instance) {
           }
         } catch (error2) {
           store.commit('member/logout')
+          location.href = import.meta.env.VITE_HIWORKS_LOGIN_PAGE
           return Promise.reject(error2)
         }
       } else {
