@@ -200,10 +200,7 @@ const endDateFormat = endDate => {
           </button>
           <div
             class="d-inline btn-wrapper"
-            v-for="pageNumber in getPaginationBarNumbers(
-              page.number,
-              page.totalPages,
-            )"
+            v-for="pageNumber in getPaginationBarNumbers"
             :key="pageNumber"
           >
             <button
@@ -272,6 +269,15 @@ export default {
   },
   computed: {
     ...mapState('order', ['orders']),
+    getPaginationBarNumbers() {
+      const startNumber = Math.max(0, this.page.number - 5)
+      const endNumber = Math.min(startNumber + 5, this.page.totalPages)
+      let arr = []
+      for (let i = startNumber; i < endNumber; i++) {
+        arr.push(i)
+      }
+      return arr
+    },
   },
   methods: {
     isSelected(period) {
@@ -463,15 +469,6 @@ export default {
     },
     isAccepted(orderStatus) {
       return orderStatus === 'ACCEPTED'
-    },
-    getPaginationBarNumbers(currentPageNumber, totalPages) {
-      const startNumber = Math.max(0, currentPageNumber - 5)
-      const endNumber = Math.min(startNumber + 5, totalPages)
-      let arr = []
-      for (let i = startNumber; i < endNumber; i++) {
-        arr.push(i)
-      }
-      return arr
     },
   },
 }
