@@ -199,11 +199,6 @@ const endDateFormat = endDate => {
             Prev
           </button>
           <button
-            v-if="
-              Math.abs(pageNumber - page.number) < 3 ||
-              pageNumber === page.totalPages ||
-              pageNumber === 1
-            "
             v-for="pageNumber in page.totalPages"
             :key="pageNumber"
             :value="pageNumber"
@@ -216,7 +211,15 @@ const endDateFormat = endDate => {
             "
             @click="changeSelectedPage(pageNumber)"
           >
-            {{ pageNumber }}
+            <span
+              v-if="
+                Math.abs(pageNumber - (page.number + 1)) < 3 ||
+                pageNumber === page.totalPages ||
+                pageNumber === 1
+              "
+            >
+              {{ pageNumber }}
+            </span>
           </button>
           <button
             :class="
