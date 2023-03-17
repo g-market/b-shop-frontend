@@ -1,7 +1,6 @@
 import { login, logout } from '@/api/authApi'
 import { fetchMember, patchMember } from '@/api/memberApi'
 import { uploadImage } from '@/api/imageApi'
-import store from '@/store/index'
 import router from '@/routes'
 
 export default {
@@ -36,8 +35,8 @@ export default {
       state.member.grade = data.memberResponse.grade
       state.member.profileImageUrl = data.memberResponse.profileImageUrl
       if (
-        store.state.member.member.phoneNumber == null ||
-        store.state.member.member.phoneNumber === ''
+        state.member.member.phoneNumber == null ||
+        state.member.member.phoneNumber === ''
       ) {
         router.push('/register')
       }
