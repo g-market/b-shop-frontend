@@ -154,7 +154,7 @@ export default {
         alert('회원가입이 성공적으로 진행되었습니다.')
         this.$router.push('/')
       } catch (error) {
-        alert(error.response.data.message)
+        alert('이미 등록된 휴대전화 번호입니다.')
         console.log(error)
       }
     },
