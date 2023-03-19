@@ -446,7 +446,7 @@ export default {
     },
     async cancelOrder(orderId) {
       const isConfirm = confirm(
-        '주문 취소는 접수 상태에서만 가능합니다. 취소 하시겠습니까?',
+        '주문 취소는 신청 상태에서만 가능합니다. 취소 하시겠습니까?',
       )
       if (isConfirm) {
         await this.$store.dispatch('order/CANCEL_ORDER', orderId)
