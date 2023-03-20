@@ -200,8 +200,7 @@ export default {
   components: { ItemCarousel },
   async created() {
     const itemId = this.$route.params.id
-    const data = this.$store.dispatch('item/FETCH_ITEM', itemId)
-    console.log(data)
+    const data = await this.$store.dispatch('item/FETCH_ITEM', itemId)
     if (data.itemStatus === 'RESERVED') {
       alert('예약 상품입니다.')
       this.$router.push('/')
