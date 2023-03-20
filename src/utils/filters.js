@@ -40,7 +40,7 @@ export function changeKoreanOrderStatus(orderStatus) {
     case 'ACCEPTED':
       return '신청'
     case 'COMPLETED':
-      return '비공개'
+      return '완료'
     case 'CANCELLED':
       return '취소'
   }

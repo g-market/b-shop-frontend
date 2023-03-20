@@ -37,7 +37,6 @@ export default {
     logout(state) {
       state.token = ''
       state.member = _initMember()
-      sessionStorage.clear()
     },
     setMember(state, data) {
       state.member.id = data.id
@@ -88,13 +87,9 @@ export default {
       }
     },
     async UPDATE_MEMBER({ commit }, memberUpdateRequest) {
-      try {
-        const { data } = await patchMember(memberUpdateRequest)
-        commit('setProfile', memberUpdateRequest)
-        return data
-      } catch (error) {
-        console.log(error)
-      }
+      const { data } = await patchMember(memberUpdateRequest)
+      commit('setProfile', memberUpdateRequest)
+      return data
     },
     async UPDATE_PROFILE_IMAGE_URL({ commit }, formData) {
       try {

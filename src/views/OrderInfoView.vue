@@ -84,6 +84,7 @@ const endDateFormat = endDate => {
                 <th scope="col" class="text-center">주문 일자</th>
                 <th scope="col" class="text-center">주문 상태</th>
                 <th scope="col" class="text-center">주문 금액</th>
+                <th scope="col" class="text-center">주문 취소</th>
               </tr>
             </thead>
             <tbody>
@@ -139,6 +140,18 @@ const endDateFormat = endDate => {
                 </td>
                 <td class="text-center">
                   {{ $filters.formatCurrency(orderInfo.totalPrice) }}
+                </td>
+                <td class="text-center">
+                  <button
+                    @click="cancelOrder(orderInfo.orderId)"
+                    :class="
+                      isAccepted(orderInfo.orderStatus)
+                        ? 'btn cancel-btn'
+                        : 'btn cancel-btn disabled'
+                    "
+                  >
+                    주문 취소
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -197,6 +210,7 @@ const endDateFormat = endDate => {
                 : 'page-item page-link'
             "
             @click="changeSelectedPage(currPage)"
+            v-show="Math.abs(page.number + 1 - currPage) < 7"
           >
             {{ currPage }}
           </button>
@@ -430,6 +444,19 @@ export default {
         last: data.last,
       }
     },
+    async cancelOrder(orderId) {
+      const isConfirm = confirm(
+        '주문 취소는 신청 상태에서만 가능합니다. 취소 하시겠습니까?',
+      )
+      if (isConfirm) {
+        await this.$store.dispatch('order/CANCEL_ORDER', orderId)
+      }
+      const data = await this.fetchOrderInfos()
+      this.setPage(data)
+    },
+    isAccepted(orderStatus) {
+      return orderStatus === 'ACCEPTED'
+    },
   },
 }
 </script>
@@ -483,5 +510,10 @@ export default {
 
 .item-info {
   width: 60%;
+}
+
+.cancel-btn {
+  background-color: $primary-btn;
+  font-size: 0.9rem;
 }
 </style>
