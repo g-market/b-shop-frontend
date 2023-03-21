@@ -61,7 +61,7 @@ import { mapState } from 'vuex'
 
 export default {
   async created() {
-    await this.$store.dispatch('searchStatus/FETCH_YEARS')
+    // await this.$store.dispatch('searchStatus/FETCH_YEARS')
     await this.$store.dispatch('searchStatus/FETCH_CATEGORIES')
     this.$store.state.searchStatus.selectedCategory = null
     this.$store.state.searchStatus.itemName = null

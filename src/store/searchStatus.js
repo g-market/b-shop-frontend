@@ -7,7 +7,7 @@ export default {
     selectedYear: 2023,
     categories: [],
     selectedCategory: null,
-    years: [],
+    years: [2023, 2022, 2021, 2020, 2019],
     itemName: null,
     page: {
       number: 0,
@@ -20,9 +20,9 @@ export default {
   },
   getters: {},
   mutations: {
-    initYears(state, data) {
-      state.years = data
-    },
+    // initYears(state, data) {
+    //   state.years = data
+    // },
     initCategories(state, data) {
       state.categories = data
     },
